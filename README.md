@@ -49,10 +49,10 @@ This project is developed collaboratively by a four-member project team.
 
 | Member | Role |
 |---|---|
-| Member 1 | Maze / Data Preparation |
-| Member 2 | Algorithm Development |
-| Member 3 | Testing / Evaluation |
-| Member 4 | Documentation / Research |
+| Member 1 (Neeraj)| Maze / Data Preparation |
+| Member 2 (Riya) | Algorithm Development |
+| Member 3 (jasmeet)| Testing / Evaluation |
+| Member 4 (pranav)| Documentation / Research |
 
 All team members are expected to contribute to the repository and understand the complete project pipeline.
 
