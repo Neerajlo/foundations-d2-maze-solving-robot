@@ -127,3 +127,30 @@ The experiment results are saved in `results/maze_results.csv`. The file records
 ## Testing
 
 The current test suite contains 9 tests covering maze generation, maze validation, neighbor detection, goal detection, and BFS path finding.
+
+## Research Paper Validation
+
+**Reference paper:**
+
+Hart, P. E., Nilsson, N. J., & Raphael, B. (1968).
+A Formal Basis for the Heuristic Determination of Minimum Cost Paths.
+IEEE Transactions on Systems Science and Cybernetics, 4(2), 100–107.
+https://doi.org/10.1109/TSSC.1968.300136
+
+**Objective:** Validate the shortest-path property of A* on our
+generated, unweighted grid mazes using BFS as a baseline.
+
+**Method:** Run BFS and A* on the same nine mazes and compare
+their path lengths using `results/maze_results.csv`.
+
+**Observed result:** BFS and A* returned equal path lengths on all
+nine tested mazes. Small mazes required 18 steps, medium mazes
+38 steps, and large mazes 58 steps.
+
+**Conclusion:** These results are consistent with both algorithms
+finding shortest paths on the tested mazes. This is a practical
+validation inspired by the paper's minimum-cost path principle,
+not an exact reproduction of the original experiment.
+
+**Limitation:** The validation covers only the generated mazes
+and configurations tested in this project.
