@@ -82,17 +82,17 @@ LEFT ← ROBOT → RIGHT
          ↓
        DOWN
 
-## Week 2 — Initial Findings
+## Week 2 – Initial Findings
 
-1. All tested maze sizes (5 × 5, 10 × 10, 20 × 20, and 30 × 30) were successfully solved by BFS.
+1. The dataset contains 27 experiment records covering 9 mazes and 3 algorithms.
 
-2. The path length increased significantly as the maze size increased, from 10 moves in the 5 × 5 maze to 436 moves in the 30 × 30 maze.
+2. The recorded path lengths range from 18 to 240 steps across the experiments.
 
-3. The number of nodes expanded increased from 15 in the 5 × 5 maze to 743 in the 30 × 30 maze.
+3. The number of nodes expanded ranges from 38 to 875 across the experiments.
 
-4. The actual path through the maze can be much longer than the Manhattan distance between the start and goal because the robot must follow the available maze passages.
+4. BFS and A* returned equal path lengths on all nine tested mazes, while DFS produced longer paths on the tested configurations.
 
-5. The generated maze structure has dead ends and branching paths. In the 10 × 10 maze, the number of reachable neighbors per cell ranged from 1 to 3, with an average of 1.98.
+5. The exploration notebook shows differences in average path length and nodes expanded between BFS, DFS, and A*.
 
 ## How to Run the Project
 
