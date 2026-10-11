@@ -52,7 +52,7 @@ This project is developed collaboratively by a four-member project team.
 | Member 1 (Neeraj)| Maze / Data Preparation |
 | Member 2 (Riya) | Algorithm Development |
 | Member 3 (jasmeet)| Testing / Evaluation |
-| Member 4 (pranav)| Documentation / Research |
+| Member 4 (pranav)| Documentation / Research | (removed)
 
 All team members are expected to contribute to the repository and understand the complete project pipeline.
 
@@ -81,3 +81,15 @@ LEFT ← ROBOT → RIGHT
          |
          ↓
        DOWN
+
+## Week 2 — Initial Findings
+
+1. All tested maze sizes (5 × 5, 10 × 10, 20 × 20, and 30 × 30) were successfully solved by BFS.
+
+2. The path length increased significantly as the maze size increased, from 10 moves in the 5 × 5 maze to 436 moves in the 30 × 30 maze.
+
+3. The number of nodes expanded increased from 15 in the 5 × 5 maze to 743 in the 30 × 30 maze.
+
+4. The actual path through the maze can be much longer than the Manhattan distance between the start and goal because the robot must follow the available maze passages.
+
+5. The generated maze structure has dead ends and branching paths. In the 10 × 10 maze, the number of reachable neighbors per cell ranged from 1 to 3, with an average of 1.98.
