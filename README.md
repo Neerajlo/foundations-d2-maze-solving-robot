@@ -93,3 +93,37 @@ LEFT ← ROBOT → RIGHT
 4. The actual path through the maze can be much longer than the Manhattan distance between the start and goal because the robot must follow the available maze passages.
 
 5. The generated maze structure has dead ends and branching paths. In the 10 × 10 maze, the number of reachable neighbors per cell ranged from 1 to 3, with an average of 1.98.
+
+## How to Run the Project
+
+### 1. Generate Maze Data
+
+```bash
+python -m src.maze_generator
+```
+
+### 2. Run Maze-Solving Experiments
+
+```bash
+python -m src.main
+```
+
+### 3. Run Tests
+
+```bash
+python -m pytest src/ -v
+```
+
+## Results
+
+The experiment results are saved in `results/maze_results.csv`. The file records the maze ID, algorithm, path length, nodes expanded, runtime, replanning count, and path-found status.
+
+## Algorithms
+
+* **BFS:** Finds a shortest path in an unweighted maze.
+* **DFS:** Explores paths deeply and may return a longer path.
+* **A* Search:** Uses a heuristic to guide the search toward the goal.
+
+## Testing
+
+The current test suite contains 9 tests covering maze generation, maze validation, neighbor detection, goal detection, and BFS path finding.

@@ -1,29 +1,36 @@
 import json
+from pathlib import Path
 
 
 class Maze:
+    DIRECTIONS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
     def __init__(self, grid, start=(0, 0), goal=None):
         self.grid = grid
         self.rows = len(grid)
         self.cols = len(grid[0])
 
-        self.start = start
-
-        if goal is None:
-            self.goal = (self.rows - 1, self.cols - 1)
-        else:
-            self.goal = goal
+        self.start = tuple(start)
+        self.goal = tuple(goal) if goal is not None else (
+            self.rows - 1, self.cols - 1
+        )
 
     @classmethod
     def from_json(cls, file_path):
-        with open(file_path, "r") as f:
-            grid = json.load(f)
+        with open(file_path, "r", encoding="utf-8") as file:
+            data = json.load(file)
 
-        return cls(grid)
+        if isinstance(data, list):
+            return cls(data)
+
+        return cls(
+            data["grid"],
+            data.get("start", (0, 0)),
+            data.get("goal")
+        )
 
     def is_valid(self, position):
         row, col = position
-
         return (
             0 <= row < self.rows
             and 0 <= col < self.cols
@@ -32,17 +39,9 @@ class Maze:
 
     def get_neighbors(self, position):
         row, col = position
-
-        directions = [
-            (-1, 0),  # Up
-            (1, 0),   # Down
-            (0, -1),  # Left
-            (0, 1),   # Right
-        ]
-
         neighbors = []
 
-        for dr, dc in directions:
+        for dr, dc in self.DIRECTIONS:
             next_position = (row + dr, col + dc)
 
             if self.is_valid(next_position):
