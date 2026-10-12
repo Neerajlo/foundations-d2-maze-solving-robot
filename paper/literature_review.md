@@ -1,34 +1,83 @@
-Literature Review
-D2: Maze-Solving Robot
-Track D · Foundations of AI 
-1. Why this literature matters
-Our module asks a simulated robot to reach a goal in a grid maze, first with a complete map and then with only what it has actually seen. That is really two problems glued together: offline shortest-path search (BFS, DFS, A*) and online replanning under partial observability (reactive A*, D* Lite). The literature below was chosen to cover both halves, from the foundational papers that defined the algorithms we are implementing to more recent comparative studies that show how they behave in practice — which is the part our own experiments (Section 5, Rule 4) need to speak to honestly.
-2. Literature table
-#	Paper (Author, Year)	What they did	Data / Domain	Key result	What we can borrow
-1	Hart, Nilsson & Raphael, “A Formal Basis for the Heuristic Determination of Minimum Cost Paths” (1968)	Introduced the A* algorithm and proved it is complete and optimal for an admissible heuristic, and that no other algorithm using the same heuristic expands fewer nodes	Graph search theory; originally motivated by the Shakey robot's route planning	A* with an admissible heuristic guarantees the shortest path while typically expanding far fewer nodes than uninformed search	The Manhattan-distance heuristic and the admissibility argument for why A* should beat BFS on our grid mazes
-2	Korf, “Depth-First Iterative-Deepening: An Optimal Admissible Tree Search” (1985)	Introduced IDA*, combining depth-first search with A*'s cost bound to get A*-quality solutions in linear space	Sliding-tile puzzles and other exponential tree-search domains	IDA* is asymptotically optimal in time, space, and solution cost, at the cost of re-visiting nodes across iterations	A concrete answer to “BFS runs out of memory before it finds anything” — worth reporting as a memory-bounded alternative on our largest maze
-3	Lumelsky & Stepanov, “Path-Planning Strategies for a Point Mobile Automaton Moving Amidst Unknown Obstacles of Arbitrary Shape” (1987)	Defined the Bug1/Bug2 family: minimal-sensing reactive strategies (move toward goal, follow obstacle boundary on contact) with proven worst-case path-length bounds	A point robot with only local/contact sensing, no map	Guarantees the robot reaches the goal (if reachable) using only local information, with a provable path-length bound	A useful low-end baseline for our partial-observation phase, and a natural “stupidest thing that works” candidate for Week 4
-4	Stentz, “Optimal and Efficient Path Planning for Partially-Known Environments” (1994)	Introduced D*, which plans an initial path like A* but repairs it locally when new obstacles are discovered instead of replanning from scratch	Outdoor mobile-robot navigation with a partially known terrain map	D* finds paths in unknown/changing environments while staying optimal and far more efficient than repeated full A* replans	The core justification for why our module builds toward D* Lite instead of just re-running A* after every wall discovery
-5	Yamauchi, “A Frontier-Based Approach for Autonomous Exploration” (1997)	Defined “frontiers” — the boundary between explored and unexplored cells — and used them to drive a robot's exploration decisions	Real mobile robot mapping cluttered office environments with sonar	Frontier-based exploration lets a robot extend its map efficiently in both open and cluttered spaces without a prior map	A clean way to frame our robot's “what does it see, what hasn't it seen yet” bookkeeping in the partial-observation phase
-6	Koenig & Likhachev, “D* Lite” (2002)	Built D* Lite on top of Lifelong Planning A*, reproducing D*'s behaviour with a simpler, easier-to-analyse incremental algorithm	Simulated and real goal-directed navigation and mapping in unknown terrain	D* Lite matches D*'s efficiency at replanning after new information while being substantially easier to implement and prove correct	This is the algorithm named directly in Roadmap Step 3 — their worked examples are the closest thing to a spec we have
-7	Koenig, Likhachev & Furcy, “Lifelong Planning A*” (2004)	Formalised LPA*, which reuses the search tree from a previous A* run instead of rebuilding it after small changes to the graph	Theoretical analysis plus grid-based path-repair experiments	LPA* provably returns the same solution as a fresh A* search after each update, with far fewer node expansions when changes are local	The theoretical backbone for why incremental replanning should beat naive re-running of A* — useful for explaining our own replan-count numbers
-8	Cui & Shi, “A*-based Pathfinding in Modern Computer Games” (2011)	Surveyed A* variants and optimisations used in shipped games, and compared their behaviour on grid maps	Grid-based game maps of varying size	Confirms that plain A*'s node-expansion cost grows quickly with grid size, motivating the optimisations it reviews	Grid-size scaling behaviour we should expect to reproduce in our own three-maze-size comparison
-9	“Hybridization of A* Pathfinding and Hierarchical Pathfinding A*”, UIJRT (2023)	Combined A* with HPA* clustering and benchmarked path quality and speed against plain A*	Randomly generated and real-game grid maps	Hierarchical A* variants can be substantially faster than plain A* while staying within about 1% of the optimal path length	A concrete precedent for reporting a speed/quality trade-off table, the same shape Rule 1 asks us for
-3. What this tells us before we write any code
-Two things stand out across these nine papers, and both map directly onto our roadmap:
-●	Every “improved” algorithm here is improved relative to a clearly named baseline — Bug algorithms against blind wandering, D* against full-replan-from-scratch, D* Lite against D*, hierarchical A* against plain A*. That is the same discipline Rule 1 asks of us: our A*/D* Lite results only mean something next to BFS/DFS and repeated-A* baselines.
-●	Every one of these methods is reported with an explicit account of where it is expensive — IDA* re-visits nodes, Bug algorithms take long boundary-following detours, plain A* runs out of memory or slows down as the grid grows. None of the source papers hide this. Our own warning about testing on only one maze size is really the same lesson: report the scaling, not just the best case.
-4. Backup datasets / domains
-In case our generated mazes are not enough for Week 3's “two public datasets” requirement:
-●	Moving AI Lab pathfinding benchmarks — a standard grid-map benchmark suite used across the pathfinding literature (including several papers above), useful for validating our A* implementation against externally known optimal path lengths.
-●	OpenAI Gym / Gymnasium FrozenLake and Maze environments — grid navigation with configurable stochasticity, usable as a secondary domain for the partial-observation phase if we want a second dataset for Week 9's external-data test.
-5. References
-1. Hart, P. E., Nilsson, N. J., & Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths. IEEE Transactions on Systems Science and Cybernetics, 4(2), 100–107.
-2. Korf, R. E. (1985). Depth-first iterative-deepening: An optimal admissible tree search. Artificial Intelligence, 27(1), 97–109.
-3. Lumelsky, V. J., & Stepanov, A. A. (1987). Path-planning strategies for a point mobile automaton moving amidst unknown obstacles of arbitrary shape. Algorithmica, 2(1–4), 403–430.
-4. Stentz, A. (1994). Optimal and efficient path planning for partially-known environments. Proceedings of the 1994 IEEE International Conference on Robotics and Automation, 3310–3317.
-5. Yamauchi, B. (1997). A frontier-based approach for autonomous exploration. Proceedings of the 1997 IEEE International Symposium on Computational Intelligence in Robotics and Automation (CIRA'97), 146–151.
-6. Koenig, S., & Likhachev, M. (2002). D* Lite. Proceedings of the 18th National Conference on Artificial Intelligence (AAAI-02), 476–483.
-7. Koenig, S., Likhachev, M., & Furcy, D. (2004). Lifelong Planning A*. Artificial Intelligence, 155(1–2), 93–146.
-8. Cui, X., & Shi, H. (2011). A*-based pathfinding in modern computer games. International Journal of Computer Science and Network Security, 11(1), 125–130.
-9. Hybridization of A* pathfinding and hierarchical pathfinding A*. (2023). United International Journal for Research & Technology, 4(8).
+# Literature Review
+## D2: Maze-Solving Robot
+Track D · Foundations of AI
+
+## 1. Why This Literature Matters
+
+Our module asks a simulated robot to reach a goal in a grid maze, first with a complete map and then with only what it has actually seen. This involves two related problems: offline shortest-path search using BFS, DFS and A*, and online replanning under partial observability using reactive navigation and D* Lite.
+
+The following literature covers both problems. It includes foundational research that introduced important algorithms and comparative studies that help us understand their behaviour. These papers will guide our own experiments and help us justify our algorithm choices.
+
+## 2. Literature Table
+
+| # | Paper (Author, Year) | What They Did | Data / Domain | Key Result | What We Can Borrow |
+|---|---|---|---|---|---|
+| 1 | Hart, Nilsson & Raphael, "A Formal Basis for the Heuristic Determination of Minimum Cost Paths" (1968) | Introduced A* and established its theoretical properties for heuristic search. | Graph-search theory, motivated by robot route planning. | A* can find an optimal path when its heuristic satisfies the required conditions. | Use Manhattan distance as the heuristic for four-direction grid movement and compare A* with BFS. |
+| 2 | Korf, "Depth-First Iterative-Deepening: An Optimal Admissible Tree Search" (1985) | Introduced IDA*, combining depth-first exploration with a cost bound. | Sliding-tile puzzles and other search-tree problems. | IDA* reduces memory requirements by using depth-first search, but may revisit nodes across iterations. | Discuss memory-efficient search as a possible alternative when memory becomes a limitation. |
+| 3 | Putra et al., "Comparison of Breadth-First Search (BFS) and Depth-First Search (DFS) Algorithms for Shortest Search in Campus Maze" (2025) | Compared BFS and DFS using a campus-maze simulation and evaluated performance. | Campus layout represented as an unweighted graph, with 20 room/location nodes. | The paper reports differences in execution speed, memory use and shortest-path behaviour between BFS and DFS. | Compare BFS and DFS using path length, nodes expanded, runtime and memory on our generated mazes. |
+| 4 | Stentz, "Optimal and Efficient Path Planning for Partially-Known Environments" (1994) | Introduced D*, which repairs a path when new obstacles are discovered rather than always planning from scratch. | Outdoor mobile-robot navigation with a partially known terrain map. | D* supports path planning in partially known environments and updates plans as new information becomes available. | Explain why replanning is important when our robot discovers previously unknown walls. |
+| 5 | Yamauchi, "A Frontier-Based Approach for Autonomous Exploration" (1997) | Introduced frontier-based exploration, using boundaries between explored and unexplored areas to guide a robot. | Mobile-robot mapping in cluttered office environments using sonar. | Frontier-based exploration supports mapping without requiring a complete map in advance. | Represent known and unknown cells and explain how the robot can discover the maze incrementally. |
+| 6 | Koenig & Likhachev, "D* Lite" (2002) | Presented D* Lite, an incremental heuristic-search method based on Lifelong Planning A*. | Simulated and real navigation and mapping in unknown terrain. | The authors demonstrated the benefits of incremental heuristic search for replanning. | Use D* Lite as the planned method for updating routes after discovering new obstacles. |
+| 7 | Koenig, Likhachev & Furcy, "Lifelong Planning A*" (2004) | Developed LPA*, which reuses information from previous searches when a graph changes. | Theoretical analysis and path-planning experiments. | Reusing previous search information can reduce repeated search effort when changes are limited. | Compare incremental replanning with repeatedly running A* from scratch. |
+| 8 | Elkari et al., "Exploring Maze Navigation: A Comparative Study of DFS, BFS, and A* Search Algorithms" (2024) | Compared DFS, BFS and A* for maze path planning using Python and the Pmaze library. | Generated maze configurations containing dead ends, loops and multiple possible paths. | The study examines trade-offs in path cost and algorithmic complexity across the three methods. | Follow a direct comparison structure and report path length, nodes expanded, runtime and performance across maze sizes. |
+| 9 | Beamer, Asanović & Patterson, "Direction-Optimizing Breadth-First Search" (2013) | Introduced a BFS optimisation that switches between top-down and bottom-up traversal. | Large synthetic graphs and real social-network graphs on multicore systems. | The paper reports speedups over a baseline BFS on the evaluated large-graph workloads. | Use this paper as background on BFS optimisation, while noting that its large-graph setting differs from our grid mazes. |
+
+## 3. What This Literature Tells Us
+
+Two important lessons emerge from these papers.
+
+First, improved algorithms should be compared with a clearly defined baseline. Our project can use BFS and DFS as uninformed-search baselines, A* as heuristic search, and D* Lite for incremental replanning.
+
+Second, algorithm performance depends on the problem and the metric being measured. BFS can find shortest paths in unweighted graphs, DFS does not guarantee the shortest path, A* uses a heuristic to guide search, and incremental algorithms can reuse previous search information.
+
+Therefore, our experiments should consider path length, nodes expanded, execution time, memory usage and performance across different maze sizes. We should report limitations as well as successful results.
+
+## 4. Backup Datasets / Domains
+
+### Dataset 1: Moving AI Lab Pathfinding Benchmarks
+
+Source:https://www.movingai.com/benchmarks/grids.html
+
+The Moving AI Lab provides public grid maps and benchmark scenarios for evaluating pathfinding algorithms. For our project, we downloaded the `maze512-1-0.map` map file and its corresponding `maze512-1-0.map-scen` scenario file.
+
+The map is a 512 × 512 grid. This dataset can be used to test our pathfinding algorithms on an external benchmark instead of relying only on randomly generated mazes. Before running experiments, we must verify the map format, movement rules, and start and goal positions specified by the scenario.
+The first scenario entry in `maze512-1-0.map-scen` specifies a start position of (477, 130), a goal position of (476, 131), and a reference path length of 2.0. These values must be interpreted using the benchmark's coordinate convention before running the experiment.
+
+### Dataset 2: Gymnasium Environments
+
+Source: https://gymnasium.farama.org/environments/toy_text/frozen_lake/
+
+Gymnasium provides public reinforcement-learning environments, including FrozenLake-v1. FrozenLake is a grid-world environment in which an agent moves from a starting state toward a goal while avoiding holes. Its slippery version can cause movement to differ from the intended action. It can therefore serve as a secondary grid-navigation environment for exploratory testing. However, it is not a conventional maze-map benchmark like Moving AI, and its transition rules differ from our project's four-direction maze movement. We will treat it as a separate environment rather than directly combining its results with our maze experiments.
+
+
+## 5. Selected Methods and Reasons
+
+| Method | Purpose in Our Project | Reason for Selection |
+|---|---|---|
+| BFS | Baseline search on a fully known maze | Finds a shortest path in an unweighted maze and provides a reference for comparisons. |
+| DFS | Alternative uninformed search | Allows us to compare exploration behaviour, path length and memory usage with BFS. |
+| A* | Heuristic pathfinding | Uses Manhattan distance to guide search toward the goal in four-direction movement. |
+| Reactive navigation / repeated A* | Navigation with partial observation | Allows the robot to update its knowledge and replan when it discovers a wall. |
+| D* Lite | Incremental replanning | Reuses previous search information to handle changes in the discovered map. |
+
+We will compare the selected methods using consistent maze configurations and clearly recorded metrics. Our existing BFS implementation from Week 2 provides the starting baseline. Further algorithms and partial-observation behaviour will be evaluated as the project progresses.
+
+## 6. References
+
+1. Hart, P. E., Nilsson, N. J., & Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths. *IEEE Transactions on Systems Science and Cybernetics*, 4(2), 100–107.
+
+2. Korf, R. E. (1985). Depth-first iterative-deepening: An optimal admissible tree search. *Artificial Intelligence*, 27(1), 97–109.
+
+3. Putra, A. A. D., Maulana, A. N., Febrianti, S. B., Camelia, N., Hutagalung, S. K., & Khudori, A. N. (2025). Comparison of Breadth-First Search (BFS) and Depth-First Search (DFS) Algorithms for Shortest Search in Campus Maze. *JESICA: Journal of Enhanced Studies in Informatics and Computer Applications*, 2(2), 43–51.
+
+4. Stentz, A. (1994). Optimal and efficient path planning for partially-known environments. *Proceedings of the 1994 IEEE International Conference on Robotics and Automation*, 3310–3317.
+
+5. Yamauchi, B. (1997). A frontier-based approach for autonomous exploration. *Proceedings of the 1997 IEEE International Symposium on Computational Intelligence in Robotics and Automation*, 146–151.
+
+6. Koenig, S., & Likhachev, M. (2002). D* Lite. *Proceedings of the 18th National Conference on Artificial Intelligence (AAAI-02)*, 476–483.
+
+7. Koenig, S., Likhachev, M., & Furcy, D. (2004). Lifelong Planning A*. *Artificial Intelligence*, 155(1–2), 93–146.
+
+8. Elkari, B., Ourabah, L., Sekkat, H., Hsaine, A., Essaiouad, C., Bouargane, Y., & El Moutaouakil, K. (2024). Exploring Maze Navigation: A Comparative Study of DFS, BFS, and A* Search Algorithms. *Statistics, Optimization & Information Computing*, 12, 761–781. https://doi.org/10.19139/soic-2310-5070-1939
+
+9. Beamer, S., Asanović, K., & Patterson, D. (2013). Direction-optimizing breadth-first search. *Scientific Programming*, 21, 137–148. https://doi.org/10.3233/SPR-130370
