@@ -1,88 +1,36 @@
 from collections import deque
 
 
-def reconstruct_path(parent, start, goal):
-  
-
-    path = []
-    current = goal
-
-    while current is not None:
-        path.append(current)
-
-        if current == start:
-            break
-
-        current = parent.get(current)
-
-    # If start was never reached, there is no path.
-    if path[-1] != start:
-        return []
-
-    path.reverse()
-
-    return path
-
-
 def bfs(maze):
-  
-    start = maze.start
-    goal = maze.goal
-
-    # Queue for BFS.
+    start, goal = maze.start, maze.goal
     queue = deque([start])
+    parent = {start: None}
+    visited = []
 
-    # Keep track of visited cells.
-    visited = {start}
-
-    # Store how we reached each cell.
-    parent = {
-        start: None
-    }
-
-    # Store the order in which cells were explored.
-    visited_order = []
-
-    # BFS search.
     while queue:
-
         current = queue.popleft()
+        visited.append(current)
 
-        # Record this cell as expanded.
-        visited_order.append(current)
-
-        # Check whether we reached the goal.
         if current == goal:
             break
 
-        # Explore all reachable neighboring cells.
         for neighbor in maze.get_neighbors(current):
-
-            if neighbor not in visited:
-
-                visited.add(neighbor)
-
+            if neighbor not in parent:
                 parent[neighbor] = current
-
                 queue.append(neighbor)
 
-    # Reconstruct the final path.
-    path = reconstruct_path(
-        parent,
-        start,
-        goal
-    )
-
-    # Determine whether a solution was found.
-    success = len(path) > 0
-
-    # Number of movements between cells.
-    path_length = len(path) - 1 if success else 0
+    path = []
+    if goal in parent:
+        current = goal
+        while current is not None:
+            path.append(current)
+            current = parent[current]
+        path.reverse()
 
     return {
         "path": path,
-        "path_length": path_length,
-        "nodes_expanded": len(visited_order),
-        "visited_order": visited_order,
-        "success": success
+        "path_length": max(0, len(path) - 1),
+        "nodes_expanded": len(visited),
+        "visited_order": visited,
+        "success": bool(path),
     }

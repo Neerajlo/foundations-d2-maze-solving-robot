@@ -1,15 +1,16 @@
-from maze_generator import generate_maze
-from maze_visualizer import display_maze
+from src.maze_generator import generate_maze
 
 
-maze = generate_maze(
-    rows=10,
-    cols=10,
-    seed=42
-)
+def test_generate_maze_returns_maze():
+    maze = generate_maze(10, 10, seed=42)
 
-print("Maze size:", maze.rows, "x", maze.cols)
-print("Start:", maze.start)
-print("Goal:", maze.goal)
+    assert isinstance(maze, list)
+    assert len(maze) == 10
+    assert all(len(row) == 10 for row in maze)
 
-display_maze(maze)
+
+def test_generate_maze_has_valid_start_and_goal():
+    maze = generate_maze(10, 10, seed=42)
+
+    assert maze[0][0] == 0
+    assert maze[9][9] == 0
