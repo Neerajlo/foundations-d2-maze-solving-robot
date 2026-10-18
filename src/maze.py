@@ -1,54 +1,57 @@
+import json
+from pathlib import Path
+
+
 class Maze:
-    """
-    Represents a cell-based maze.
+    DIRECTIONS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-    Each cell has four possible walls:
-    top, right, bottom, left.
+    def __init__(self, grid, start=(0, 0), goal=None):
+        self.grid = grid
+        self.rows = len(grid)
+        self.cols = len(grid[0])
 
-    False = no wall
-    True  = wall
-    """
+        self.start = tuple(start)
+        self.goal = tuple(goal) if goal is not None else (
+            self.rows - 1, self.cols - 1
+        )
 
-    DIRECTIONS = {
-        "UP": (-1, 0),
-        "RIGHT": (0, 1),
-        "DOWN": (1, 0),
-        "LEFT": (0, -1)
-    }
+    @classmethod
+    def from_json(cls, file_path):
+        with open(file_path, "r", encoding="utf-8") as file:
+            data = json.load(file)
 
-    def __init__(self, rows, cols, start, goal, walls):
-        self.rows = rows
-        self.cols = cols
-        self.start = start
-        self.goal = goal
-        self.walls = walls
+        if isinstance(data, list):
+            return cls(data)
+
+        return cls(
+            data["grid"],
+            data.get("start", (0, 0)),
+            data.get("goal")
+        )
 
     def is_valid(self, position):
-        """Check whether a cell is inside the maze."""
         row, col = position
-
         return (
             0 <= row < self.rows
             and 0 <= col < self.cols
+            and self.grid[row][col] == 0
         )
 
     def get_neighbors(self, position):
-
         row, col = position
         neighbors = []
 
-        direction_names = ["UP", "RIGHT", "DOWN", "LEFT"]
+        for dr, dc in self.DIRECTIONS:
+            next_position = (row + dr, col + dc)
 
-        for direction in direction_names:
-
-            dr, dc = self.DIRECTIONS[direction]
-
-            neighbor = (row + dr, col + dc)
-
-            if not self.is_valid(neighbor):
-                continue
-
-            if not self.walls[position][direction]:
-                neighbors.append(neighbor)
+            if self.is_valid(next_position):
+                neighbors.append(next_position)
 
         return neighbors
+
+    def is_goal(self, position):
+        return position == self.goal
+
+    def display(self):
+        for row in self.grid:
+            print(" ".join(str(cell) for cell in row))

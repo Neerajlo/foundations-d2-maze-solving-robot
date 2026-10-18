@@ -1,85 +1,56 @@
+import json
 import random
+from pathlib import Path
 
-from maze import Maze
+
+def generate_maze(rows, cols, seed=42):
+    random.seed(seed)
+
+    grid = [[0 for _ in range(cols)] for _ in range(rows)]
+
+    # Keep a guaranteed path from start to goal.
+    r, c = 0, 0
+    path = {(r, c)}
+
+    while r < rows - 1 or c < cols - 1:
+        if r == rows - 1:
+            c += 1
+        elif c == cols - 1:
+            r += 1
+        elif random.random() < 0.5:
+            r += 1
+        else:
+            c += 1
+        path.add((r, c))
+
+    for r in range(rows):
+        for c in range(cols):
+            if (r, c) not in path and random.random() < 0.25:
+                grid[r][c] = 1
+
+    return grid
 
 
-def generate_maze(rows, cols, seed=None):
+def main():
+    output_dir = Path("data/raw")
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    if rows <= 0 or cols <= 0:
-        raise ValueError("Rows and columns must both be positive.")
-
-    random_generator = random.Random(seed)
-
-    # Every cell initially has four walls.
-    walls = {}
-
-    for row in range(rows):
-        for col in range(cols):
-            walls[(row, col)] = {
-                "UP": True,
-                "RIGHT": True,
-                "DOWN": True,
-                "LEFT": True
-            }
-
-    # Keep track of visited cells.
-    visited = set()
-
-    # Opposite walls.
-    opposite = {
-        "UP": "DOWN",
-        "RIGHT": "LEFT",
-        "DOWN": "UP",
-        "LEFT": "RIGHT"
+    sizes = {
+        "small": (10, 10),
+        "medium": (20, 20),
+        "large": (30, 30),
     }
 
-    directions = {
-        "UP": (-1, 0),
-        "RIGHT": (0, 1),
-        "DOWN": (1, 0),
-        "LEFT": (0, -1)
-    }
+    for name, (rows, cols) in sizes.items():
+        for seed in (42, 43, 44):
+            grid = generate_maze(rows, cols, seed)
+            output = output_dir / f"{name}_{seed}.json"
 
-    def carve_passage(current):
-        """Recursively carve passages through the maze."""
+            with open(output, "w", encoding="utf-8") as file:
+                json.dump(grid, file)
 
-        visited.add(current)
+            print(f"Generated {output}")
 
-        direction_list = list(directions.keys())
-        random_generator.shuffle(direction_list)
 
-        row, col = current
-
-        for direction in direction_list:
-
-            dr, dc = directions[direction]
-            neighbor = (row + dr, col + dc)
-
-            # Skip if neighbor is outside the maze.
-            if not (0 <= neighbor[0] < rows and 0 <= neighbor[1] < cols):
-                continue
-
-            # Skip if already visited.
-            if neighbor in visited:
-                continue
-
-            # Remove wall between current cell and neighbor.
-            walls[current][direction] = False
-            walls[neighbor][opposite[direction]] = False
-
-            # Continue from the neighbor.
-            carve_passage(neighbor)
-
-    # Start maze generation from top-left cell.
-    carve_passage((0, 0))
-
-    start = (0, 0)
-    goal = (rows - 1, cols - 1)
-
-    return Maze(
-        rows=rows,
-        cols=cols,
-        start=start,
-        goal=goal,
-        walls=walls
-    )
+if __name__ == "__main__":
+    main()

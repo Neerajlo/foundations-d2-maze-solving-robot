@@ -1,31 +1,33 @@
-from maze_generator import generate_maze
-from bfs import bfs
+from src.maze import Maze
+from src.bfs import bfs
 
 
-# Generate a 10 x 10 maze.
-maze = generate_maze(
-    rows=10,
-    cols=10,
-    seed=42
-)
+def create_test_maze(walls=None):
+    grid = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+    ]
+
+    if walls:
+        for row, col in walls:
+            grid[row][col] = 1
+
+    return Maze(grid, start=(0, 0), goal=(2, 2))
 
 
-# Run BFS.
-result = bfs(maze)
+def test_bfs_finds_path():
+    maze = create_test_maze()
+    result = bfs(maze)
+
+    assert result["success"] is True
+    assert result["path"][0] == (0, 0)
+    assert result["path"][-1] == (2, 2)
 
 
-print(" BFS RESULT ")
+def test_bfs_handles_blocked_goal():
+    maze = create_test_maze(walls={(2, 2)})
+    result = bfs(maze)
 
-print("Maze size:", maze.rows, "x", maze.cols)
-print("Start:", maze.start)
-print("Goal:", maze.goal)
-
-print("Success:", result["success"])
-print("Path length:", result["path_length"])
-print("Nodes expanded:", result["nodes_expanded"])
-
-print("\nPath:")
-print(result["path"])
-
-print("\nVisited cells:")
-print(result["visited_order"])
+    assert result["success"] is False
+    assert result["path"] == []
