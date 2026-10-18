@@ -32,3 +32,86 @@ In case our generated mazes are not enough for Week 3's “two public datasets�
 7. Koenig, S., Likhachev, M., & Furcy, D. (2004). Lifelong Planning A*. Artificial Intelligence, 155(1–2), 93–146.
 8. Cui, X., & Shi, H. (2011). A*-based pathfinding in modern computer games. International Journal of Computer Science and Network Security, 11(1), 125–130.
 9. Hybridization of A* pathfinding and hierarchical pathfinding A*. (2023). United International Journal for Research & Technology, 4(8).
+
+
+## 6. Member 2 — Autonomous Navigation and Replanning
+
+### 6.1 Partial-Observation Navigation
+
+In a partially observed maze, the robot does not initially know the complete layout. It maintains a discovered map containing known free cells, known walls, and unknown cells. As the robot moves, it observes its surroundings and updates this map.
+
+The ground-truth map represents the complete maze, while the discovered map represents only the information currently available to the robot. The navigation algorithm must plan using the discovered map rather than accessing hidden obstacles directly.
+
+This distinction is important because a path that appears valid on the discovered map may become blocked when the robot observes a previously unknown wall.
+
+### 6.2 Obstacle Discovery and Map Updating
+
+When the robot observes a new obstacle, it updates the corresponding cell in its discovered map. It then checks whether the obstacle affects the current planned route.
+
+If the current route is blocked, the robot must calculate an alternative route. If the route remains valid, it may continue following the existing plan.
+
+The navigation cycle is:
+
+1. Plan a route using the discovered map.
+2. Move toward the goal.
+3. Observe the surrounding cells.
+4. Update the discovered map.
+5. Check whether new information invalidates the current route.
+6. Replan if necessary.
+7. Repeat until the goal is reached or no valid route can be found.
+
+### 6.3 Reactive A* and Incremental Replanning
+
+Reactive A* is the initial approach selected for our project. It runs A* on the currently discovered map and performs another search when newly discovered information blocks the planned route.
+
+D* Lite and Lifelong Planning A* are relevant alternatives because they reuse search information when the planning problem changes. These algorithms may reduce repeated computation, but their benefits must be measured rather than assumed.
+
+The initial implementation will use Reactive A* because it is relatively simple to understand and evaluate. An incremental approach may be considered later if the project has sufficient time and a suitable implementation.
+
+### 6.4 Limitations Relevant to Our Project
+
+The literature suggests several issues that should be investigated during implementation and evaluation:
+
+* Repeatedly running A* may perform unnecessary work when the map changes only slightly.
+* An incomplete discovered map can make a planned route appear valid until a hidden obstacle is observed.
+* Frequent obstacle discoveries may increase the total number of searches and execution time.
+* Incremental algorithms require additional implementation complexity.
+* Performance on small generated mazes may not generalize to larger or more complex environments.
+* Comparisons are meaningful only when algorithms use consistent maze layouts, movement rules, start positions, goal positions, and observation conditions.
+
+These limitations will guide the project's experiments and should not be interpreted as proof that one algorithm is always better than another.
+
+### 6.5 Proposed Navigation Evaluation
+
+The project will evaluate navigation using generated mazes and a simulated observation model.
+
+The following metrics will be recorded:
+
+* **Replanning count:** Number of additional route searches triggered by newly discovered obstacles.
+* **Actual distance travelled:** Number of movement steps taken by the robot.
+* **Final path length:** Number of movement steps in the completed route.
+* **Nodes expanded:** Number of search nodes processed by the planning algorithm.
+* **Execution time:** Time required for planning and navigation.
+* **Discovered obstacles:** Number of previously unknown obstacles identified during navigation.
+* **Navigation success:** Whether the robot reaches the goal.
+
+The initial comparison will focus on Reactive A*. D* Lite may be evaluated as an alternative if implementation time permits.
+
+### 6.6 Connection to the Existing Experiment
+
+The existing Reactive A* experiment in `notebooks/01_exploration.ipynb` demonstrates a robot discovering an obstacle, updating its discovered map, and replanning when its current route is affected.
+
+The experiment provides an initial proof of concept. Further testing on different maze layouts and obstacle locations is required before drawing general conclusions about navigation performance.
+
+The reported measurements should be taken from the actual experiment outputs and should not be generalized beyond the tested conditions.
+
+
+## 7. Conclusion and Proposed Direction
+
+The reviewed literature covers both offline pathfinding in known mazes and online navigation in partially observed environments. BFS provides a useful baseline for unweighted grids, while A* uses a heuristic to guide the search toward the goal. Bug algorithms provide alternative navigation strategies when only local information about obstacles is available.
+
+For the partial-observation component, the project will initially use Reactive A*. The robot will maintain a discovered map, observe nearby cells, update the map when it discovers previously unknown walls, and replan when new information invalidates its current route. D* Lite and Lifelong Planning A* are potential alternatives for future comparison because they reuse search information when the planning problem changes.
+
+The experiments should compare algorithms using consistent maze layouts, start and goal positions, movement rules, and observation conditions. Evaluation will consider path length, actual distance travelled, nodes expanded, execution time, replanning count, and navigation success.
+
+The team will retain generated mazes as its primary experimental environment and use suitable public benchmark maps as additional test resources. Final algorithm choices will be based on measured results, implementation feasibility, and the limitations identified in the literature.
