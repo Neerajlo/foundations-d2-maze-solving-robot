@@ -32,3 +32,12 @@ In case our generated mazes are not enough for Week 3's “two public datasets�
 7. Koenig, S., Likhachev, M., & Furcy, D. (2004). Lifelong Planning A*. Artificial Intelligence, 155(1–2), 93–146.
 8. Cui, X., & Shi, H. (2011). A*-based pathfinding in modern computer games. International Journal of Computer Science and Network Security, 11(1), 125–130.
 9. Hybridization of A* pathfinding and hierarchical pathfinding A*. (2023). United International Journal for Research & Technology, 4(8).
+## 6. Research Gap
+
+Existing research covers shortest-path algorithms such as BFS and A*, memory-efficient search methods such as IDA*, and replanning approaches such as D* Lite. However, their performance depends on maze structure, obstacle placement, and whether the environment is fully or partially observable.
+
+This project addresses this practical comparison by evaluating BFS, DFS, and A* on generated grid mazes of different sizes. It records path length, nodes expanded, runtime, and path-found status to compare solution quality and search effort.
+
+**Research question:** How do BFS, DFS, and A* compare in path length and search effort as maze size and structure change?
+
+**Scope limitation:** The current experiments use generated, fully observable mazes. They do not yet establish performance in real-world robot navigation or partially observable environments.
