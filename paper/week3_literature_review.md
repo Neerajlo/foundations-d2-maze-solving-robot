@@ -46,3 +46,15 @@ Use the same maze instances and start/goal conditions when comparing algorithms.
 ## 2.5 Research Gap and Planned Contribution
 
 This project compares BFS, DFS and A* on maze environments using path length, nodes expanded and runtime. Replanning behaviour is also relevant for partially observed environments. The current implementation and experiments will determine which conclusions can be supported; incremental replanning methods such as D* Lite remain future work unless implemented and evaluated.
+
+## 2.6 References
+
+1. Hart PE, Nilsson NJ, Raphael B. A Formal Basis for the Heuristic Determination of Minimum Cost Paths. IEEE Transactions on Systems Science and Cybernetics. 1968;4(2):100–107. https://doi.org/10.1109/TSSC.1968.300136
+2. Stentz A. Optimal and Efficient Path Planning for Partially-Known Environments. Proceedings of ICRA. 1994;4:3310–3317. https://publications.ri.cmu.edu/optimal-and-efficient-path-planning-for-partially-known-environments
+3. Yamauchi B. A Frontier-Based Approach for Autonomous Exploration. Proceedings of CIRA. 1997.
+4. Koenig S, Likhachev M. D* Lite. Proceedings of AAAI. 2002:476–483. https://publications.ri.cmu.edu/d-lite
+5. Koenig S, Likhachev M, Furcy D. Lifelong Planning A*. Artificial Intelligence. 2004;155(1–2):93–146. https://doi.org/10.1016/j.artint.2003.12.001
+6. Sturtevant NR. Benchmarks for Grid-Based Pathfinding. IEEE Transactions on Computational Intelligence and AI in Games. 2012;4(2):144–148. https://doi.org/10.1109/TCIAIG.2012.2197681
+7. Korf RE. Real-Time Heuristic Search. Artificial Intelligence. 1990;42(2–3):189–211. https://doi.org/10.1016/0004-3702(90)90054-4
+8. Dijkstra EW. A Note on Two Problems in Connexion with Graphs. Numerische Mathematik. 1959;1:269–271. https://doi.org/10.1007/BF01386390
+
