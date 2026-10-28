@@ -1,0 +1,3 @@
+﻿run_id,date,who,what_changed,main_metric,value,seed,notes
+Run 001,2026-10-28,Member 1,BFS baseline experiment,average_nodes_expanded,356.11,multiple (42;43;44),9 mazes across small medium and large; BFS found a path in all 9; results saved in results/maze_results.csv
+Run 002,2026-10-28,Member 1,BFS peak memory measurement,average_peak_memory_kb,28.39,multiple (42;43;44),Average across 9 BFS runs; measured with tracemalloc; results saved in results/maze_results.csv

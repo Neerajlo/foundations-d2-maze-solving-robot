@@ -1,5 +1,6 @@
 import csv
 import time
+import tracemalloc
 from pathlib import Path
 
 from src.maze import Maze
@@ -29,10 +30,15 @@ def main():
         maze = Maze.from_json(maze_file)
         print(f"\nMaze: {maze_file.stem}")
 
+       
         for name, algorithm in algorithms:
+            tracemalloc.start()
             start_time = time.perf_counter()
             outcome = algorithm(maze)
             elapsed = time.perf_counter() - start_time
+            current_memory, peak_memory = tracemalloc.get_traced_memory()
+            tracemalloc.stop()
+
 
             result = {
                 "maze_id": maze_file.stem,
@@ -40,6 +46,7 @@ def main():
                 "path_length": outcome["path_length"],
                 "nodes_expanded": outcome["nodes_expanded"],
                 "runtime_seconds": round(elapsed, 8),
+                "peak_memory_kb": round(peak_memory / 1024, 2),  
                 "replan_count": 0,
                 "path_found": outcome["success"],
             }
@@ -54,14 +61,15 @@ def main():
 
     output_file = RESULT_DIR / "maze_results.csv"
     fields = [
-        "maze_id",
-        "algorithm",
-        "path_length",
-        "nodes_expanded",
-        "runtime_seconds",
-        "replan_count",
-        "path_found",
-    ]
+    "maze_id",
+    "algorithm",
+    "path_length",
+    "nodes_expanded",
+    "runtime_seconds",
+    "peak_memory_kb",
+    "replan_count",
+    "path_found",
+]
 
     with open(output_file, "w", newline="", encoding="utf-8") as file:
         writer = csv.DictWriter(file, fieldnames=fields)
