@@ -16,7 +16,7 @@ from docx.oxml.ns import qn
 BASE = Path(__file__).resolve().parent
 
 SOURCE = BASE / "literature_review.md"
-OUTPUT = BASE / "literature_review_final.docx"
+OUTPUT = BASE / "literature_review_final_v2.docx"
 
 
 # --------------------------------------------------

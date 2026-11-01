@@ -83,4 +83,4 @@ External datasets will only be used when their format and experimental condition
 
 8. Cui X, Shi H. A*-based pathfinding in modern computer games. International Journal of Computer Science and Network Security. 2011;11(1):125–130.
 
-9. Hybridization of A* pathfinding and hierarchical pathfinding A*. 2023. [Bibliographic details require verification before final submission.]
+9. Agcaoili CJ, Bernabe XY, Agustin VA. Hybridization of A* Pathfinding and Hierarchical Pathfinding A* Algorithm for Pathfinding in Grid Based Games. United International Journal for Research & Technology. 2023;4(8):14–22.
