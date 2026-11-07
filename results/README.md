@@ -50,3 +50,17 @@ The output file is overwritten each time the command runs.
 - `replan_count` is currently recorded as zero by the program; it does not mean replanning behavior has been experimentally evaluated.
 - Results describe the current implementation and input mazes. They should not be treated as universal performance guarantees.
 - The experiment log in the repository root, `experiments.csv`, records selected experiment runs and their main metrics.
+
+## Week 5 — Sample Output Format
+
+`sample_output.csv` is a dummy file created to demonstrate the agreed output columns. Its values are illustrative only and are not actual experiment results.
+
+Columns:
+- `maze_id`: identifier for the maze
+- `algorithm`: algorithm used
+- `path_length`: number of steps in the path
+- `nodes_expanded`: number of nodes explored
+- `runtime_seconds`: execution time in seconds
+- `peak_memory_kb`: measured peak memory in KB
+- `replan_count`: number of replanning events
+- `path_found`: whether a path was found
