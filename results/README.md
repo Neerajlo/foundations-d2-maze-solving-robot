@@ -64,3 +64,28 @@ Columns:
 - `peak_memory_kb`: measured peak memory in KB
 - `replan_count`: number of replanning events
 - `path_found`: whether a path was found
+
+## Week 5 – Member 2 Navigation Output Format
+
+The file `member2_navigation_output.csv` defines the output format for Member 2's Autonomous Navigation and Replanning experiments.
+
+The file currently contains five illustrative dummy records. These values demonstrate the agreed structure and are not actual experimental measurements.
+
+### Output Columns
+
+- `run_id`: Unique experiment run identifier.
+- `maze_id`: Identifier of the maze being tested.
+- `algorithm`: Navigation algorithm used.
+- `start_x`, `start_y`: Starting coordinates of the robot.
+- `goal_x`, `goal_y`: Goal coordinates.
+- `path_found`: Indicates whether a valid path was found.
+- `path_length`: Length of the planned path.
+- `nodes_expanded`: Number of nodes explored during path planning.
+- `runtime_seconds`: Execution time in seconds.
+- `peak_memory_kb`: Peak memory usage in KB.
+- `obstacles_discovered`: Number of previously unknown obstacles discovered.
+- `replan_count`: Number of replanning operations.
+- `actual_distance`: Actual distance travelled by the robot.
+- `navigation_success`: Indicates whether the robot successfully reached its goal.
+
+Actual experimental measurements will replace the dummy values when navigation experiments are conducted.
