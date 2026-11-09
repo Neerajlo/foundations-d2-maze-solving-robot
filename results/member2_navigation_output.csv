@@ -1,0 +1,6 @@
+run_id,maze_id,algorithm,start_x,start_y,goal_x,goal_y,path_found,path_length,nodes_expanded,runtime_seconds,peak_memory_kb,obstacles_discovered,replan_count,actual_distance,navigation_success
+001,maze_01,Reactive A*,0,0,9,9,True,18,45,0.0021,32.5,1,1,18,True
+002,maze_02,Reactive A*,0,0,9,9,True,20,52,0.0028,34.2,2,2,22,True
+003,maze_03,Reactive A*,0,0,9,9,True,19,48,0.0024,33.1,1,1,20,True
+004,maze_04,Reactive A*,0,0,9,9,True,21,61,0.0032,36.7,2,2,24,True
+005,maze_05,Reactive A*,0,0,9,9,True,17,39,0.0019,30.8,0,0,17,True

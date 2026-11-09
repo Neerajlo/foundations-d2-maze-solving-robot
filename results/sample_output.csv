@@ -1,0 +1,6 @@
+maze_id,algorithm,path_length,nodes_expanded,runtime_seconds,peak_memory_kb,replan_count,path_found
+sample_small_01,BFS,18,76,0.00024,28.40,0,True
+sample_small_01,DFS,24,38,0.00014,25.10,0,True
+sample_medium_01,A*,38,197,0.00082,32.60,0,True
+sample_large_01,D* Lite,58,383,0.00110,41.20,2,True
+sample_large_02,Reactive A*,63,420,0.00135,44.80,3,True
