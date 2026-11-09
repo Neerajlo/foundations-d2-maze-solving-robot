@@ -1,0 +1,6 @@
+﻿run_id,maze_id,algorithm,start_x,start_y,goal_x,goal_y,path_found,path_length,nodes_expanded,runtime_seconds,peak_memory_kb,obstacles_discovered,replan_count,actual_distance,navigation_success
+M3_001,maze_01,Wall Following,0,0,9,9,True,20,45,0.0025,32.5,1,0,20,True
+M3_002,maze_02,Wall Following,0,0,9,9,True,24,52,0.0030,34.2,2,0,24,True
+M3_003,maze_03,Wall Following,0,0,9,9,True,22,48,0.0028,33.1,1,1,23,True
+M3_004,maze_04,Wall Following,0,0,9,9,True,27,61,0.0035,36.7,2,1,29,True
+M3_005,maze_05,Wall Following,0,0,9,9,True,19,39,0.0022,30.8,0,0,19,True

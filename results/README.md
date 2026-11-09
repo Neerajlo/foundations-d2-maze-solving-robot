@@ -50,3 +50,19 @@ The output file is overwritten each time the command runs.
 - `replan_count` is currently recorded as zero by the program; it does not mean replanning behavior has been experimentally evaluated.
 - Results describe the current implementation and input mazes. They should not be treated as universal performance guarantees.
 - The experiment log in the repository root, `experiments.csv`, records selected experiment runs and their main metrics.
+
+## Week 5 — Member 3 Algorithm Output Format
+
+The file `member3_algorithm_output.csv` defines the output format for Member 3's Wall Following algorithm experiments.
+
+It contains five illustrative dummy records. These values are examples only, not actual experimental measurements.
+
+The columns record:
+- Run and maze identifiers
+- Algorithm and start/goal coordinates
+- Path found and path length
+- Nodes expanded, runtime and peak memory
+- Obstacles discovered and replanning count
+- Actual distance and navigation success
+
+Actual experimental measurements will replace dummy values after testing.
