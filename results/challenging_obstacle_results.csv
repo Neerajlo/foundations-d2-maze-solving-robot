@@ -1,0 +1,5 @@
+
+maze,size,obstacle_number,obstacle_cell,dstar_replanning_expansions,dstar_total_expansions,bfs_expansions,dstar_path_length,bfs_path_length,success
+large_42,30x30,1,"(7,7)",3,392,694,58,58,TRUE
+large_42,30x30,2,"(11,18)",1,393,693,58,58,TRUE
+large_42,30x30,3,"(17,26)",1,394,692,58,58,TRUE

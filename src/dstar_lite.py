@@ -8,8 +8,8 @@ class DStarLite:
     """
     D* Lite pathfinding algorithm.
 
-    It calculates a path from start to goal and updates
-    its previous search when obstacles are discovered.
+    Calculates a path from start to goal and reuses previous
+    search information when obstacles are discovered.
     """
 
     def __init__(self, maze, start=None, goal=None):
@@ -27,6 +27,7 @@ class DStarLite:
         self.entry_versions = {}
         self.counter = itertools.count()
 
+        # Cumulative measurements
         self.nodes_expanded = 0
         self.replan_count = 0
 
@@ -36,8 +37,10 @@ class DStarLite:
                 self.g[cell] = math.inf
                 self.rhs[cell] = math.inf
 
-        self.rhs[self.goal] = 0
-        self._push(self.goal)
+        # The goal is the target of the backward search.
+        if self.maze.is_valid(self.goal):
+            self.rhs[self.goal] = 0
+            self._push(self.goal)
 
     def heuristic(self, a, b):
         """Manhattan distance for four-direction movement."""
@@ -52,12 +55,14 @@ class DStarLite:
         )
 
     def _cost(self, a, b):
+        """Return movement cost, or infinity if movement is impossible."""
         if not self.maze.is_valid(a) or not self.maze.is_valid(b):
             return math.inf
 
         return 1
 
     def _neighbors(self, cell):
+        """Return valid four-direction neighbours."""
         row, col = cell
         result = []
 
@@ -70,15 +75,22 @@ class DStarLite:
         return result
 
     def _push(self, cell):
+        """Insert a new version of a cell into the priority queue."""
         version = self.entry_versions.get(cell, 0) + 1
         self.entry_versions[cell] = version
 
         heapq.heappush(
             self.open_list,
-            (self._key(cell), next(self.counter), cell, version)
+            (
+                self._key(cell),
+                next(self.counter),
+                cell,
+                version
+            )
         )
 
     def _top_key(self):
+        """Return the smallest valid priority."""
         while self.open_list:
             key, _, cell, version = self.open_list[0]
 
@@ -91,6 +103,7 @@ class DStarLite:
         return (math.inf, math.inf)
 
     def _pop(self):
+        """Remove and return the smallest valid queue entry."""
         while self.open_list:
             key, _, cell, version = heapq.heappop(self.open_list)
 
@@ -100,7 +113,17 @@ class DStarLite:
         return (math.inf, math.inf), None
 
     def _update_vertex(self, cell):
-        if cell != self.goal:
+        """Update the one-step lookahead value of a cell."""
+
+        if cell == self.goal:
+            self.rhs[cell] = (
+                0 if self.maze.is_valid(cell) else math.inf
+            )
+
+        elif not self.maze.is_valid(cell):
+            self.rhs[cell] = math.inf
+
+        else:
             self.rhs[cell] = min(
                 (
                     self._cost(cell, neighbor) + self.g[neighbor]
@@ -109,11 +132,12 @@ class DStarLite:
                 default=math.inf
             )
 
-        # Invalidate any previous queue entry.
+        # Invalidate old queue entries.
         self.entry_versions[cell] = (
             self.entry_versions.get(cell, 0) + 1
         )
 
+        # Only inconsistent cells belong in the queue.
         if self.g[cell] != self.rhs[cell]:
             self._push(cell)
 
@@ -151,14 +175,26 @@ class DStarLite:
     def plan(self):
         """Calculate and return the current path."""
 
+        previous_expansions = self.nodes_expanded
+
         self.compute_shortest_path()
 
-        if math.isinf(self.g[self.start]):
+        expansions_this_call = (
+            self.nodes_expanded - previous_expansions
+        )
+
+        # Handle blocked start or goal.
+        if (
+            not self.maze.is_valid(self.start)
+            or not self.maze.is_valid(self.goal)
+            or math.isinf(self.g[self.start])
+        ):
             return {
                 "path": [],
                 "success": False,
                 "path_length": 0,
                 "nodes_expanded": self.nodes_expanded,
+                "nodes_expanded_this_call": expansions_this_call,
                 "replan_count": self.replan_count
             }
 
@@ -167,6 +203,7 @@ class DStarLite:
         visited = {current}
 
         while current != self.goal:
+
             candidates = [
                 (
                     self._cost(current, neighbor) + self.g[neighbor],
@@ -194,13 +231,20 @@ class DStarLite:
             "success": success,
             "path_length": len(path) - 1 if success else 0,
             "nodes_expanded": self.nodes_expanded,
+            "nodes_expanded_this_call": expansions_this_call,
             "replan_count": self.replan_count
         }
 
     def move_start(self, new_start):
-        """Move the robot's current position."""
+        """Move the robot's current position and update the heuristic."""
 
         new_start = tuple(new_start)
+
+        if not (
+            0 <= new_start[0] < self.maze.rows
+            and 0 <= new_start[1] < self.maze.cols
+        ):
+            raise ValueError("New start is outside the maze.")
 
         self.km += self.heuristic(self.last_start, new_start)
         self.start = new_start
@@ -208,8 +252,10 @@ class DStarLite:
 
     def update_obstacle(self, cell, blocked=True):
         """
-        Update the map when an obstacle is discovered.
-        The search reuses its previous g and rhs values.
+        Update the maze after discovering an obstacle.
+
+        Reuses the previous g and rhs values and repairs
+        only the affected part of the search.
         """
 
         cell = tuple(cell)
@@ -220,10 +266,18 @@ class DStarLite:
         ):
             raise ValueError("Obstacle is outside the maze.")
 
-        self.maze.grid[cell[0]][cell[1]] = 1 if blocked else 0
+        new_value = 1 if blocked else 0
+        old_value = self.maze.grid[cell[0]][cell[1]]
+
+        # Avoid unnecessary replanning if nothing changed.
+        if old_value == new_value:
+            return self.plan()
+
+        self.maze.grid[cell[0]][cell[1]] = new_value
 
         self.replan_count += 1
 
+        # The changed cell and its neighbours may be affected.
         affected = [cell] + [
             (cell[0] + dr, cell[1] + dc)
             for dr, dc in self.maze.DIRECTIONS
