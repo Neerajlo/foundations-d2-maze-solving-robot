@@ -1,0 +1,10 @@
+maze_id,maze_size,success,path_length,nodes_expanded,replan_count,obstacles_discovered,moves,attempts,runtime_seconds,peak_memory_kb
+large_42,30x30,True,82,983,24,24,82,106,0.0596657,259.37
+large_43,30x30,True,76,952,12,12,76,88,0.0407441,143.24
+large_44,30x30,True,94,1051,29,29,94,123,0.051321,143.21
+medium_42,20x20,True,44,423,12,12,44,56,0.0191158,72.19
+medium_43,20x20,True,54,441,10,10,54,64,0.0378487,72.16
+medium_44,20x20,True,72,491,22,22,72,94,0.0280472,72.12
+small_42,10x10,True,32,140,8,8,32,40,0.0069316,20.03
+small_43,10x10,True,20,110,7,7,20,27,0.0055967,20.45
+small_44,10x10,True,34,134,13,13,34,47,0.0077589,19.96

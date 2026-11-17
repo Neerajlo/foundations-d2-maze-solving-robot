@@ -1,3 +1,8 @@
+import csv
+import time
+import tracemalloc
+from pathlib import Path
+from src.maze import Maze
 
 from src.robot import Robot
 from src.dstar_lite import DStarLite
@@ -11,6 +16,9 @@ def run_partial_observation(actual_maze):
     Unknown cells are assumed open for planning.
     D* Lite replans when the robot discovers an obstacle.
     """
+    # Start performance measurements.
+    tracemalloc.start()
+    start_time = time.perf_counter()
 
     # Step 1: Initialize the robot.
     robot = Robot(actual_maze)
@@ -71,7 +79,12 @@ def run_partial_observation(actual_maze):
 
     success = robot.reached_goal()
 
-    # Step 7: Store the final results.
+    # Capture performance measurements.
+    elapsed_time = time.perf_counter() - start_time
+    current_memory, peak_memory = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+
+    # Store final results.
     final_result = {
         "success": success,
         "path": robot.path_history,
@@ -81,7 +94,9 @@ def run_partial_observation(actual_maze):
         "obstacles_discovered": len(robot.discovered_obstacles),
         "discovered_obstacle_cells": robot.discovered_obstacles,
         "moves": moves,
-        "attempts": attempts
+        "attempts": attempts,
+        "runtime_seconds": round(elapsed_time, 8),
+        "peak_memory_kb": round(peak_memory / 1024, 2)
     }
 
     print("\n========== SIMULATION RESULTS ==========")
@@ -91,6 +106,58 @@ def run_partial_observation(actual_maze):
     print("Nodes expanded:", final_result["nodes_expanded"])
     print("Replanning count:", final_result["replan_count"])
     print("Obstacles discovered:", final_result["obstacles_discovered"])
+    print("Runtime:", final_result["runtime_seconds"], "seconds")
+    print("Peak memory:", final_result["peak_memory_kb"], "KB")
     print("Robot path:", final_result["path"])
 
     return final_result
+def save_results_to_csv(results, output_file="results/dstar_lite_navigation_results.csv"):
+    """Save D* Lite navigation results to CSV."""
+
+    Path(output_file).parent.mkdir(parents=True, exist_ok=True)
+
+    fields = [
+        "maze_id",
+        "maze_size",
+        "success",
+        "path_length",
+        "nodes_expanded",
+        "replan_count",
+        "obstacles_discovered",
+        "moves",
+        "attempts",
+        "runtime_seconds",
+        "peak_memory_kb"
+    ]
+
+    with open(output_file, "w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(
+            {field: result.get(field, "") for field in fields}
+            for result in results
+        )
+
+    print(f"\nResults saved to: {output_file}")
+if __name__ == "__main__":
+
+    maze_files = sorted(Path("data/raw").glob("*.json"))
+    results = []
+
+    print("Total mazes:", len(maze_files))
+
+    for maze_file in maze_files:
+        print(f"\nProcessing: {maze_file.stem}")
+
+        maze = Maze.from_json(maze_file)
+
+        result = run_partial_observation(maze)
+
+        result["maze_id"] = maze_file.stem
+        result["maze_size"] = f"{maze.rows}x{maze.cols}"
+
+        results.append(result)
+
+    save_results_to_csv(results)
+
+    print("\nAll maze simulations completed!")

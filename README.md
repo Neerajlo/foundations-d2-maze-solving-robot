@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-Track: Foundations D — Robotics and Algorithmic Problem Solving  
-Module: D2 — Maze Solving Robot  
-Type: Path Finding / Robot Simulation  
+Track: Foundations D — Robotics and Algorithmic Problem Solving
+Module: D2 — Maze Solving Robot
+Type: Path Finding / Robot Simulation
 Difficulty: Foundation
 
 The objective of this project is to develop a computational **Maze Solving Robot** using Python. The system represents a maze as a grid containing accessible cells and obstacles, defines a starting point and destination, and determines a valid path between them.
@@ -49,10 +49,10 @@ This project is developed collaboratively by a four-member project team.
 
 | Member | Role |
 |---|---|
-| Member 1 (Neeraj)| Maze / Data Preparation |
-| Member 2 (Riya) | Algorithm Development |
-| Member 3 (jasmeet)| Testing / Evaluation |
-| Member 4 (pranav)| Documentation / Research | (removed)
+| Member 1 (Neeraj) | Maze / Data Preparation |
+| Member 2 (Jasmeet) | Algorithm Development |
+| Member 3 (Riya) | Testing / Evaluation |
+| Member 4 (Pranav) | Documentation / Research |
 
 All team members are expected to contribute to the repository and understand the complete project pipeline.
 
@@ -281,3 +281,112 @@ The Week 6 implementation demonstrates that D* Lite can update its search after 
 The comparison with BFS confirmed that both algorithms found equally short paths in the challenging experiment.
 
 The results are preliminary and do not establish that D* Lite always performs better than BFS in terms of execution time or total node expansions.
+---
+
+## Week 6 – Reactive A* and D* Lite Comparative Evaluation
+
+### 9. Objective
+
+The objective of this experiment was to evaluate autonomous navigation algorithms in partially observable maze environments.
+
+Reactive A* and D* Lite were tested to study their ability to discover obstacles, replan routes, and navigate from the starting position to the goal.
+
+### 9.1 Reactive A* Implementation
+
+Reactive A* was implemented in `src/solver.py`.
+
+The algorithm:
+- Initially has limited knowledge of the maze.
+- Treats unknown cells as traversable during planning.
+- Discovers obstacles when attempting movement.
+- Updates its known map.
+- Runs A* again when an obstacle is discovered.
+
+The implementation was integrated into `src/main.py`.
+
+### 9.2 D* Lite Partial-Observation Integration
+
+D* Lite was integrated with the robot simulation using:
+
+- `src/dstar_lite.py`
+- `src/robot.py`
+- `src/partial_observation.py`
+
+The robot initially knows only its starting position. Unknown cells are assumed to be open for planning.
+
+When an obstacle is discovered, D* Lite updates its existing search information and calculates a new route.
+
+### 9.3 Experimental Setup
+
+Both algorithms were evaluated using the same nine generated mazes:
+
+| Maze Category | Dimensions | Number of Mazes |
+|---|---|---:|
+| Small | 10 × 10 | 3 |
+| Medium | 20 × 20 | 3 |
+| Large | 30 × 30 | 3 |
+| **Total** | | **9** |
+
+The following performance parameters were recorded:
+
+- Navigation success rate
+- Actual path length
+- Nodes expanded
+- Number of replanning operations
+- Execution time
+- Peak memory usage
+- Number of discovered obstacles
+
+### 9.4 Comparative Results
+
+The average measurements obtained from the nine experiments are shown below.
+
+| Algorithm | Success Rate | Avg. Path Length | Avg. Nodes Expanded | Avg. Runtime (s) | Avg. Memory (KB) | Avg. Replans |
+|---|---:|---:|---:|---:|---:|---:|
+| BFS | 100% | 38.00 | 356.11 | 0.000614 | 28.40 | 0.00 |
+| DFS | 100% | 104.22 | 382.56 | 0.001827 | 34.98 | 0.00 |
+| A* | 100% | 38.00 | 223.00 | 0.000591 | 24.60 | 0.00 |
+| Reactive A* | 100% | 56.44 | 2921.56 | 0.007978 | 55.11 | 15.11 |
+| D* Lite | 100% | 56.44 | 525.00 | 0.028559 | 91.41 | 15.22 |
+
+### 9.5 Performance Analysis
+
+**Node Expansions:**
+
+D* Lite expanded an average of 525 nodes, compared with 2921.56 for Reactive A*. This represents approximately 82% fewer node expansions.
+
+**Execution Time:**
+
+Reactive A* recorded a lower average execution time of approximately 0.007978 seconds, compared with 0.028559 seconds for D* Lite.
+
+**Memory Usage:**
+
+Reactive A* used approximately 55.11 KB of peak memory, whereas D* Lite used approximately 91.41 KB.
+
+**Path Length:**
+
+Both algorithms achieved an average actual path length of 56.44 steps across the nine mazes.
+
+**Navigation Success:**
+
+Both algorithms successfully reached the goal in all nine test mazes, achieving a 100% success rate.
+
+### 9.6 Result Files
+
+The experimental results are stored in:
+
+- `results/maze_results.csv` – BFS, DFS, A*, and Reactive A* results.
+- `results/dstar_lite_navigation_results.csv` – D* Lite partial-observation results.
+- `results/algorithm_comparison.csv` – Comparative average performance of all five algorithms.
+
+### 9.7 Conclusion
+
+The experiments demonstrate that both Reactive A* and D* Lite can successfully navigate partially observable maze environments.
+
+D* Lite performed substantially fewer node expansions than Reactive A*, indicating an advantage in reducing repeated search operations through incremental replanning.
+
+However, Reactive A* recorded lower execution time and memory consumption in the tested implementation.
+
+The results demonstrate different performance trade-offs between the two navigation approaches. Neither algorithm is universally superior across all performance measurements.
+
+The experiments were conducted on nine generated mazes, and the results should be interpreted within the limits of the tested configurations.
