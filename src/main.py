@@ -5,8 +5,7 @@ from pathlib import Path
 
 from src.maze import Maze
 from src.bfs import bfs
-from src.solver import dfs, astar
-
+from src.solver import dfs, astar, reactive_astar
 
 RAW_DIR = Path("data/raw")
 RESULT_DIR = Path("results")
@@ -24,6 +23,7 @@ def main():
         ("BFS", bfs),
         ("DFS", dfs),
         ("A*", astar),
+        ("Reactive A*", reactive_astar),
     ]
 
     for maze_file in sorted(RAW_DIR.glob("*.json")):
@@ -46,8 +46,11 @@ def main():
                 "path_length": outcome["path_length"],
                 "nodes_expanded": outcome["nodes_expanded"],
                 "runtime_seconds": round(elapsed, 8),
-                "peak_memory_kb": round(peak_memory / 1024, 2),  
-                "replan_count": 0,
+                "peak_memory_kb": round(peak_memory / 1024, 2),
+                "replan_count": outcome.get("replan_count", 0),
+                "obstacles_discovered": outcome.get("obstacles_discovered", 0),
+                "actual_distance": outcome.get("actual_distance", outcome["path_length"]),
+                "plan_count": outcome.get("plan_count", 0),
                 "path_found": outcome["success"],
             }
             results.append(result)
@@ -68,6 +71,9 @@ def main():
     "runtime_seconds",
     "peak_memory_kb",
     "replan_count",
+    "obstacles_discovered",
+    "actual_distance",
+    "plan_count",
     "path_found",
 ]
 
