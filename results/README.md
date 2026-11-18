@@ -270,3 +270,22 @@ All five algorithms successfully completed their assigned test runs across the t
 - Results describe the current implementation and tested maze configurations; they are not universal performance guarantees.
 - The experiment log in the repository root, `experiments.csv`, records this evaluation as Run 006.
 
+
+### Error-Bar Visualizations
+
+Two charts visualize the average number of nodes expanded by the algorithms across small, medium, and large mazes.
+
+**1. BFS vs A***
+
+![BFS vs A* nodes expanded](charts/bfs_vs_astar.png)
+
+**2. Reactive A* vs D* Lite**
+
+![Reactive A* vs D* Lite nodes expanded](charts/reactive_astar_vs_dstar.png)
+
+The points represent the mean number of nodes expanded across ten maze seeds. The error bars represent plus and minus one sample standard deviation.
+
+These visualizations help compare computational effort and variation across maze sizes. They do not establish that one algorithm is universally superior.
+
+The charts are generated using `create_result_charts.py` from `experiment_summary.csv`.
+
