@@ -166,3 +166,107 @@ The Week 6 experiment demonstrates that Reactive A* can successfully navigate al
 The results show the trade-off between complete-information path planning and navigation under partial information. Reactive A* successfully adapts to newly discovered obstacles, although its repeated planning increases computational work compared with algorithms that know the complete maze in advance.
 
 The experiment results are saved in `maze_results.csv`, and the selected experiment summary is recorded as Run 005 in `experiments.csv`.
+## Member 1 - Multi-Algorithm Experiment Evaluation
+
+### Objective
+
+This experiment evaluates five maze-solving algorithms across three maze sizes using ten different random seeds. The objective is to compare path quality, computational effort, execution time, memory usage, and navigation behaviour.
+
+### Experimental Setup
+
+| Parameter | Configuration |
+|---|---|
+| Maze sizes | Small (10x10), Medium (20x20), Large (30x30) |
+| Random seeds | 42 to 51 |
+| Runs per algorithm and maze size | 10 |
+| Total experiment records | 150 |
+| Fully visible algorithms | BFS, DFS, A* |
+| Partial observation algorithms | Reactive A*, D* Lite |
+
+The fully visible scenario provides the complete maze to the search algorithm. The partial observation scenario simulates navigation when the robot initially has incomplete knowledge of the maze.
+
+### Output Files
+
+**1. `experiment_results.csv` - Raw Results**
+
+Contains individual experiment records.
+
+| Column | Meaning | Unit or Format |
+|---|---|---|
+| `maze_id` | Unique maze identifier | Text |
+| `maze_size` | Small, medium, or large | Text |
+| `rows` | Number of maze rows | Cells |
+| `cols` | Number of maze columns | Cells |
+| `seed` | Random seed used for generation | Integer |
+| `scenario` | Fully visible or partial observation | Text |
+| `algorithm` | Algorithm tested | Text |
+| `success` | Whether the algorithm reached the goal | Boolean |
+| `path_length` | Length of the returned or travelled path | Steps |
+| `nodes_expanded` | Number of nodes expanded | Nodes |
+| `runtime_seconds` | Measured execution time | Seconds |
+| `peak_memory_kb` | Peak traced Python memory measured using tracemalloc | KB (1024 bytes) |
+| `replan_count` | Number of recorded replanning operations | Count |
+| `obstacles_discovered` | Number of previously unknown obstacles discovered | Count |
+| `error` | Error information, if a run fails | Text |
+
+**2. `experiment_summary.csv` - Statistical Summary**
+
+Contains aggregated metrics for each scenario, maze size, and algorithm.
+
+| Column | Meaning |
+|---|---|
+| `scenario` | Experiment scenario |
+| `maze_size` | Maze size |
+| `algorithm` | Algorithm evaluated |
+| `metric` | Metric being summarized |
+| `runs` | Number of observations |
+| `mean` | Average metric value |
+| `std_dev` | Sample standard deviation |
+| `minimum` | Minimum observed value |
+| `maximum` | Maximum observed value |
+
+The summary includes success rate, path length, nodes expanded, runtime, peak memory, replanning count, and discovered obstacles.
+
+**3. `experiment_failures.csv` - Failure Analysis**
+
+Stores unsuccessful experiment records and their associated error information. The current experiment produced zero failure records.
+
+### How to Reproduce
+
+Run the following command from the repository root:
+
+```powershell
+python run_experiments.py
+```
+
+The script generates the raw results, statistical summary, and failure report in the `results/` folder. Running it again overwrites these three output files.
+
+### Measurement Methodology
+
+- Ten random seeds (42-51) are used for each maze size.
+- Each seed is used to generate a maze for the corresponding size.
+- BFS, DFS, and A* are evaluated in the fully visible scenario.
+- Reactive A* and D* Lite are evaluated in the partial observation scenario.
+- Execution time is measured in seconds.
+- Peak Python memory is measured using `tracemalloc`.
+- Mean, standard deviation, minimum, and maximum are calculated across the ten observations for each algorithm, scenario, and maze size.
+- Success rate is expressed as a percentage.
+
+### Experimental Results Overview
+
+- Total experiment records: 150.
+- Successful runs: 150.
+- Unsuccessful runs: 0.
+- Overall success rate: 100%.
+
+All five algorithms successfully completed their assigned test runs across the three maze sizes.
+
+### Measurement Assumptions and Limitations
+
+- Runtime can vary with computer load and execution conditions.
+- Each maze-seed combination has one timed run per algorithm. The standard deviation therefore describes variation across different generated mazes, not repeated timing measurements on an identical maze.
+- Memory values represent traced Python allocations, not total process memory or system RAM.
+- Reactive A* and D* Lite may follow different navigation paths and discover obstacles in different sequences. Their results should therefore be interpreted as observations from separate partial-observation runs, not as a perfectly controlled comparison using identical obstacle-discovery sequences.
+- Results describe the current implementation and tested maze configurations; they are not universal performance guarantees.
+- The experiment log in the repository root, `experiments.csv`, records this evaluation as Run 006.
+
