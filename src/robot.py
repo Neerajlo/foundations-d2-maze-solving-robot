@@ -1,4 +1,5 @@
 
+
 class Robot:
     """
     Robot that explores a maze without initially
@@ -98,3 +99,76 @@ class Robot:
 
     def reached_goal(self):
         return self.position == self.goal
+
+def wall_following(maze, hand="left", max_steps=10000):
+    """
+    Grid-based wall-following algorithm.
+    Returns path and performance information.
+    """
+
+    start = maze.start
+    goal = maze.goal
+
+    # Direction order: Up, Right, Down, Left
+    directions = [
+        (-1, 0),
+        (0, 1),
+        (1, 0),
+        (0, -1)
+    ]
+
+    position = start
+    direction = 1  # Initially facing right
+
+    path = [position]
+    visited_states = set()
+    nodes_expanded = 0
+
+    for _ in range(max_steps):
+        if position == goal:
+            break
+
+        state = (position, direction)
+
+        if state in visited_states:
+            break
+
+        visited_states.add(state)
+        nodes_expanded += 1
+
+        # Try left/right hand preference first
+        if hand == "left":
+            turns = [-1, 0, 1, 2]
+        else:
+            turns = [1, 0, -1, 2]
+
+        moved = False
+
+        for turn in turns:
+            next_direction = (direction + turn) % 4
+
+            dr, dc = directions[next_direction]
+            next_position = (
+                position[0] + dr,
+                position[1] + dc
+            )
+
+            if maze.is_valid(next_position):
+                position = next_position
+                direction = next_direction
+                path.append(position)
+                moved = True
+                break
+
+        if not moved:
+            break
+
+    success = position == goal
+
+    return {
+        "path": path,
+        "path_length": max(0, len(path) - 1),
+        "nodes_expanded": nodes_expanded,
+        "visited_order": path,
+        "success": success
+    }

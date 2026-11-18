@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-Track: Foundations D — Robotics and Algorithmic Problem Solving
-Module: D2 — Maze Solving Robot
-Type: Path Finding / Robot Simulation
+Track: Foundations D — Robotics and Algorithmic Problem Solving  
+Module: D2 — Maze Solving Robot  
+Type: Path Finding / Robot Simulation  
 Difficulty: Foundation
 
 The objective of this project is to develop a computational **Maze Solving Robot** using Python. The system represents a maze as a grid containing accessible cells and obstacles, defines a starting point and destination, and determines a valid path between them.
@@ -154,6 +154,16 @@ not an exact reproduction of the original experiment.
 
 **Limitation:** The validation covers only the generated mazes
 and configurations tested in this project.
+
+## Wall Following Algorithm
+
+The project includes a Wall Following navigation algorithm implemented in `src/robot.py`.
+
+Its performance was compared with BFS across 9 generated mazes (small, medium, and large), producing 18 experimental records.
+
+- [Wall Following Algorithm Documentation](docs/wall_following_algorithm.md)
+- [BFS vs Wall Following Results](results/wall_following_comparison.csv)
+- [Comparison Script](compare_wall_following.py)
 
 ---
 
