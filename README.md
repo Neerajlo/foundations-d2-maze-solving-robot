@@ -400,3 +400,107 @@ However, Reactive A* recorded lower execution time and memory consumption in the
 The results demonstrate different performance trade-offs between the two navigation approaches. Neither algorithm is universally superior across all performance measurements.
 
 The experiments were conducted on nine generated mazes, and the results should be interpreted within the limits of the tested configurations.
+## 10. Week 7 – Statistical Evaluation
+
+### 10.1 Objectives
+
+Week 7 focused on evaluating maze navigation algorithms across multiple maze configurations and unseen random seeds.
+
+The evaluation measured:
+- Nodes expanded.
+- Peak memory consumption.
+- Solution quality (actual path length).
+- Navigation success rate.
+- Execution time.
+- Replanning count.
+
+### 10.2 Experimental Setup
+
+A separate dataset was generated using seeds 100–109.
+
+| Maze Size | Dimensions | Test Mazes |
+|---|---|---:|
+| Small | 10 × 10 | 10 |
+| Medium | 20 × 20 | 10 |
+| Large | 30 × 30 | 10 |
+| Total | | 30 |
+
+Five algorithms were tested: BFS, DFS, A*, Reactive A*, and D* Lite.
+
+This produced 150 experiments. BFS, DFS and A* used full maze visibility, while Reactive A* and D* Lite used partial observation.
+
+### 10.3 Statistical Results
+
+Values represent mean ± standard deviation across 10 runs.
+
+#### Nodes Expanded
+
+| Maze Size | Reactive A* | D* Lite |
+|---|---:|---:|
+| Small | 256.2 ± 59.73 | 112.2 ± 13.95 |
+| Medium | 1,986.4 ± 763.22 | 456.9 ± 33.91 |
+| Large | 5,484.1 ± 1,781.49 | 979.4 ± 61.51 |
+
+#### Peak Memory Usage (KB)
+
+| Maze Size | Reactive A* | D* Lite |
+|---|---:|---:|
+| Small | 13.64 ± 0.54 | 21.38 ± 3.06 |
+| Medium | 50.71 ± 1.97 | 75.18 ± 9.30 |
+| Large | 99.32 ± 0.92 | 147.61 ± 10.59 |
+
+#### Solution Quality – Path Length
+
+| Maze Size | Reactive A* | D* Lite |
+|---|---:|---:|
+| Small | 22.2 ± 5.20 | 22.2 ± 5.20 |
+| Medium | 57.0 ± 12.01 | 57.0 ± 12.01 |
+| Large | 82.6 ± 18.60 | 82.8 ± 19.14 |
+
+### 10.4 Success Rate
+
+Both Reactive A* and D* Lite achieved 100% success across all three maze sizes.
+
+All 150 experiments across the five algorithms completed successfully, with zero recorded failures.
+
+### 10.5 Error-Bar Charts
+
+The following charts were generated using mean values and standard deviations:
+
+- `results/week7/charts/nodes_expanded.png`
+- `results/week7/charts/memory_usage.png`
+- `results/week7/charts/path_length.png`
+
+### 10.6 Performance Analysis
+
+D* Lite expanded fewer nodes than Reactive A* across all maze sizes.
+
+Reactive A* consumed less peak memory across all three maze sizes.
+
+Both algorithms achieved nearly identical average path lengths, indicating comparable solution quality.
+
+The results demonstrate different performance trade-offs. D* Lite performed better in terms of recorded node expansions, while Reactive A* used less memory.
+
+Node-expansion counts are implementation-specific and should not be interpreted as identical measures of total computational work.
+
+### 10.7 Result Files
+
+All Week 7 outputs are stored separately in `results/week7/`.
+
+- `experiment_results.csv` – Raw results from 150 experiments.
+- `experiment_summary.csv` – Statistical summaries.
+- `experiment_failures.csv` – Failed experiment records.
+- `charts/` – Generated comparison charts.
+
+The experiment scripts are:
+
+- `run_week7_experiments.py`
+- `create_week7_charts.py`
+
+### 10.8 Conclusion
+
+The Week 7 evaluation extended the earlier experiments using 10 additional random seeds and three maze sizes.
+
+D* Lite demonstrated fewer node expansions, while Reactive A* required less peak memory. Both algorithms achieved 100% success and nearly identical average path lengths.
+
+These results provide a statistical comparison of the two partial-observation navigation approaches across different maze configurations.
