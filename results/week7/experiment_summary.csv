@@ -1,0 +1,106 @@
+scenario,maze_size,algorithm,metric,runs,mean,std_dev,minimum,maximum
+fully_visible,small,BFS,success_rate_percent,10,100.0,0.0,100.0,100.0
+fully_visible,small,BFS,path_length,10,18,0.0,18,18
+fully_visible,small,BFS,nodes_expanded,10,78.8,5.28730134903956,66,84
+fully_visible,small,BFS,runtime_seconds,10,0.00015193999861367046,2.2046830920306016e-05,0.0001370999962091446,0.0002103000006172806
+fully_visible,small,BFS,peak_memory_kb,10,4.3125,0.0,4.3125,4.3125
+fully_visible,small,BFS,replan_count,10,0,0.0,0,0
+fully_visible,small,BFS,obstacles_discovered,10,0,0.0,0,0
+fully_visible,small,DFS,success_rate_percent,10,100.0,0.0,100.0,100.0
+fully_visible,small,DFS,path_length,10,32.8,6.196773353931867,20,40
+fully_visible,small,DFS,nodes_expanded,10,56,11.67142760000773,42,79
+fully_visible,small,DFS,runtime_seconds,10,0.0003271599969593808,0.00014696581253653094,0.00019179997616447508,0.0006929999799467623
+fully_visible,small,DFS,peak_memory_kb,10,6.70546875,0.252162145479545,6.5703125,7.4140625
+fully_visible,small,DFS,replan_count,10,0,0.0,0,0
+fully_visible,small,DFS,obstacles_discovered,10,0,0.0,0,0
+fully_visible,small,A*,success_rate_percent,10,100.0,0.0,100.0,100.0
+fully_visible,small,A*,path_length,10,18,0.0,18,18
+fully_visible,small,A*,nodes_expanded,10,63.7,10.863291909504738,46,78
+fully_visible,small,A*,runtime_seconds,10,0.0001771300012478605,3.165245794418381e-05,0.00014379998901858926,0.0002395000192336738
+fully_visible,small,A*,peak_memory_kb,10,5.796875,0.02655739329996242,5.78125,5.84375
+fully_visible,small,A*,replan_count,10,0,0.0,0,0
+fully_visible,small,A*,obstacles_discovered,10,0,0.0,0,0
+partial_observation,small,Reactive A*,success_rate_percent,10,100.0,0.0,100.0,100.0
+partial_observation,small,Reactive A*,path_length,10,22.2,5.202563470700445,18,34
+partial_observation,small,Reactive A*,nodes_expanded,10,256.2,59.72864564939599,163,364
+partial_observation,small,Reactive A*,runtime_seconds,10,0.0006265100004384294,0.00016598999194066872,0.000385499995900318,0.0009006999898701906
+partial_observation,small,Reactive A*,peak_memory_kb,10,13.6359375,0.5443667678609605,13.296875,15.1171875
+partial_observation,small,Reactive A*,replan_count,10,4,1.8856180831641267,2,8
+partial_observation,small,Reactive A*,obstacles_discovered,10,4,1.8856180831641267,2,8
+partial_observation,small,D* Lite,success_rate_percent,10,100.0,0.0,100.0,100.0
+partial_observation,small,D* Lite,path_length,10,22.2,5.202563470700445,18,34
+partial_observation,small,D* Lite,nodes_expanded,10,112.2,13.950706871776147,102,147
+partial_observation,small,D* Lite,runtime_seconds,10,0.00463313,0.0008004251232244581,0.0036514,0.0063463
+partial_observation,small,D* Lite,peak_memory_kb,10,21.379,3.0589557041578748,20.11,30.0
+partial_observation,small,D* Lite,replan_count,10,4,1.8856180831641267,2,8
+partial_observation,small,D* Lite,obstacles_discovered,10,4,1.8856180831641267,2,8
+fully_visible,medium,BFS,success_rate_percent,10,100.0,0.0,100.0,100.0
+fully_visible,medium,BFS,path_length,10,38,0.0,38,38
+fully_visible,medium,BFS,nodes_expanded,10,296.4,18.19767994980557,267,324
+fully_visible,medium,BFS,runtime_seconds,10,0.0004392799979541451,3.483190760172166e-05,0.0003924999909941107,0.0005116999964229763
+fully_visible,medium,BFS,peak_memory_kb,10,16.171875,0.0,16.171875,16.171875
+fully_visible,medium,BFS,replan_count,10,0,0.0,0,0
+fully_visible,medium,BFS,obstacles_discovered,10,0,0.0,0,0
+fully_visible,medium,DFS,success_rate_percent,10,100.0,0.0,100.0,100.0
+fully_visible,medium,DFS,path_length,10,90.6,16.814015317915917,70,114
+fully_visible,medium,DFS,nodes_expanded,10,305.9,88.85625095249817,154,434
+fully_visible,medium,DFS,runtime_seconds,10,0.001168090000282973,0.00028919970589274337,0.0005632000102195889,0.0015645000094082206
+fully_visible,medium,DFS,peak_memory_kb,10,25.6078125,0.30219107274114576,25.3671875,26.1796875
+fully_visible,medium,DFS,replan_count,10,0,0.0,0,0
+fully_visible,medium,DFS,obstacles_discovered,10,0,0.0,0,0
+fully_visible,medium,A*,success_rate_percent,10,100.0,0.0,100.0,100.0
+fully_visible,medium,A*,path_length,10,38,0.0,38,38
+fully_visible,medium,A*,nodes_expanded,10,207,53.49558652615912,94,278
+fully_visible,medium,A*,runtime_seconds,10,0.0004995199997210875,0.000148828079957355,0.00022749998606741428,0.0007370999956037849
+fully_visible,medium,A*,peak_memory_kb,10,22.83046875,3.8307106665936694,11.9296875,24.1875
+fully_visible,medium,A*,replan_count,10,0,0.0,0,0
+fully_visible,medium,A*,obstacles_discovered,10,0,0.0,0,0
+partial_observation,medium,Reactive A*,success_rate_percent,10,100.0,0.0,100.0,100.0
+partial_observation,medium,Reactive A*,path_length,10,57,12.009255689767881,44,76
+partial_observation,medium,Reactive A*,nodes_expanded,10,1986.4,763.2225829409865,828,3290
+partial_observation,medium,Reactive A*,runtime_seconds,10,0.0052134600060526285,0.003216509872559292,0.0016296000103466213,0.012793900008546188
+partial_observation,medium,Reactive A*,peak_memory_kb,10,50.70859375,1.9665305570065839,49.796875,56.21875
+partial_observation,medium,Reactive A*,replan_count,10,15.4,4.5995168828427575,6,23
+partial_observation,medium,Reactive A*,obstacles_discovered,10,15.4,4.5995168828427575,6,23
+partial_observation,medium,D* Lite,success_rate_percent,10,100.0,0.0,100.0,100.0
+partial_observation,medium,D* Lite,path_length,10,57,12.009255689767881,44,76
+partial_observation,medium,D* Lite,nodes_expanded,10,456.9,33.913124303136684,423,527
+partial_observation,medium,D* Lite,runtime_seconds,10,0.020073380000000002,0.00409549219855739,0.016159,0.030377
+partial_observation,medium,D* Lite,peak_memory_kb,10,75.175,9.302445616312115,72.18,101.65
+partial_observation,medium,D* Lite,replan_count,10,15.4,4.5995168828427575,6,23
+partial_observation,medium,D* Lite,obstacles_discovered,10,15.4,4.5995168828427575,6,23
+fully_visible,large,BFS,success_rate_percent,10,100.0,0.0,100.0,100.0
+fully_visible,large,BFS,path_length,10,58,0.0,58,58
+fully_visible,large,BFS,nodes_expanded,10,676.6,13.82590161817867,648,695
+fully_visible,large,BFS,runtime_seconds,10,0.0010343900066800416,0.00014043932867254357,0.0008710999973118305,0.0012784000136889517
+fully_visible,large,BFS,peak_memory_kb,10,43.153125,15.588757968484853,31.078125,61.265625
+fully_visible,large,BFS,replan_count,10,0,0.0,0,0
+fully_visible,large,BFS,obstacles_discovered,10,0,0.0,0,0
+fully_visible,large,DFS,success_rate_percent,10,100.0,0.0,100.0,100.0
+fully_visible,large,DFS,path_length,10,210.6,36.01296062993618,142,252
+fully_visible,large,DFS,nodes_expanded,10,944.3,706.1938748593682,256,2494
+fully_visible,large,DFS,runtime_seconds,10,0.003509970000595786,0.0025958275941225686,0.0010328999778721482,0.009168599994154647
+fully_visible,large,DFS,peak_memory_kb,10,57.81328125,15.787282885819323,49.71875,99.2421875
+fully_visible,large,DFS,replan_count,10,0,0.0,0,0
+fully_visible,large,DFS,obstacles_discovered,10,0,0.0,0,0
+fully_visible,large,A*,success_rate_percent,10,100.0,0.0,100.0,100.0
+fully_visible,large,A*,path_length,10,58,0.0,58,58
+fully_visible,large,A*,nodes_expanded,10,458.2,68.39395684805298,374,590
+fully_visible,large,A*,runtime_seconds,10,0.0010484600032214075,0.00013696572456464986,0.0008261000039055943,0.0012731000024359673
+fully_visible,large,A*,peak_memory_kb,10,47.8921875,0.06038073644245599,47.8046875,47.9921875
+fully_visible,large,A*,replan_count,10,0,0.0,0,0
+fully_visible,large,A*,obstacles_discovered,10,0,0.0,0,0
+partial_observation,large,Reactive A*,success_rate_percent,10,100.0,0.0,100.0,100.0
+partial_observation,large,Reactive A*,path_length,10,82.6,18.596295927474973,64,128
+partial_observation,large,Reactive A*,nodes_expanded,10,5484.1,1781.4913509005125,3016,8463
+partial_observation,large,Reactive A*,runtime_seconds,10,0.01432164000289049,0.004685517744943138,0.006491200008895248,0.02002670001820661
+partial_observation,large,Reactive A*,peak_memory_kb,10,99.32265625,0.9232059160401098,98.7421875,101.640625
+partial_observation,large,Reactive A*,replan_count,10,21.1,7.519604008486381,10,35
+partial_observation,large,Reactive A*,obstacles_discovered,10,21.1,7.519604008486381,10,35
+partial_observation,large,D* Lite,success_rate_percent,10,100.0,0.0,100.0,100.0
+partial_observation,large,D* Lite,path_length,10,82.8,19.14157778240864,64,130
+partial_observation,large,D* Lite,nodes_expanded,10,979.4,61.50736179967041,918,1128
+partial_observation,large,D* Lite,runtime_seconds,10,0.04372061,0.007529395560283855,0.0336559,0.0559904
+partial_observation,large,D* Lite,peak_memory_kb,10,147.60500000000002,10.592014025250867,144.12,177.75
+partial_observation,large,D* Lite,replan_count,10,21.3,7.94494947889678,10,37
+partial_observation,large,D* Lite,obstacles_discovered,10,21.3,7.94494947889678,10,37

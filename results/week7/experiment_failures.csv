@@ -1,0 +1,1 @@
+maze_id,maze_size,rows,cols,seed,scenario,algorithm,success,path_length,nodes_expanded,runtime_seconds,peak_memory_kb,replan_count,obstacles_discovered,error
