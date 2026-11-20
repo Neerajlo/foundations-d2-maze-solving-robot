@@ -137,6 +137,24 @@ The project was evaluated using multiple maze sizes, random seeds and search alg
 - Algorithms tested: BFS, DFS, A*, Reactive A* and D* Lite.
 - Total experimental runs: 150.
 
+### Additional Statistical Evaluation
+
+A separate statistical evaluation was conducted using a new set of 10 random seeds (100–109).
+
+- Maze sizes: 10×10, 20×20 and 30×30.
+- Random seeds: 100 to 109.
+- Algorithms tested: BFS, DFS, A*, Reactive A* and D* Lite.
+- Total experimental runs: 150.
+- Successful runs: 150.
+- Failed runs: 0.
+
+The results are stored separately in:
+- `results/week7/experiment_results.csv`
+- `results/week7/experiment_summary.csv`
+- `results/week7/experiment_failures.csv`
+
+This dataset is separate from the earlier evaluation using seeds 42–51. The two datasets have not been combined.
+
 The experiments were divided into two scenarios:
 
 **Scenario 1 – Fully Visible Maze**
@@ -329,11 +347,77 @@ A separate experiment was conducted to examine how D* Lite responds when multipl
 
 **Conclusion:** This experiment demonstrates D* Lite's incremental replanning capability. It does not establish that D* Lite always expands fewer nodes than BFS.
 
-## 7. Current Limitations and Areas for Improvement
+## 7. Member 2 – Jasmeet's Contributions (Algorithm Development)
+
+Jasmeet primarily contributed to the development and experimental evaluation of Reactive A* for autonomous maze navigation under partial observation.
+
+### 7.1 Reactive A* Implementation
+
+- Implemented Reactive A* navigation in `src/solver.py`.
+- Developed a partial-observation approach in which the robot initially knows only its starting cell.
+- Implemented an internal map to distinguish unknown, free and blocked cells.
+- Used A* path planning to calculate an initial route towards the goal.
+- Added obstacle detection when the robot attempts to enter a blocked cell.
+- Implemented route replanning whenever a previously unknown obstacle is discovered.
+- Recorded navigation information, including actual distance travelled, nodes expanded, replanning count and discovered obstacles.
+
+### 7.2 Experimental Evaluation
+
+- Contributed to the experimental evaluation of the maze-solving algorithms.
+- Evaluated Reactive A* across small, medium and large maze configurations.
+- Worked with a ten-seed experimental evaluation to study performance across different maze configurations.
+- Analysed path length, nodes expanded, execution time, peak memory and success rate.
+- Examined average performance and standard deviation to understand variations across experiments.
+- Helped prepare result tables and error-bar visualizations for performance analysis.
+
+### 7.3 Comparative Analysis
+
+Compared Reactive A* with the team's existing D* Lite implementation under partial-observation conditions.
+
+The evaluation examined:
+- Average path length.
+- Nodes expanded.
+- Execution time.
+- Peak memory usage.
+- Replanning behaviour.
+- Overall navigation success.
+
+The results showed that D* Lite expanded fewer nodes, while Reactive A* required less execution time and peak memory in the measured experiments.
+
+### 7.4 Obstacle Detection and Replanning Tests
+
+Conducted controlled tests to verify Reactive A* behaviour when encountering obstacles.
+
+One controlled test demonstrated:
+- Successful navigation to the goal.
+- One obstacle discovered.
+- One replanning operation.
+- Actual distance travelled: 4 steps.
+- Nodes expanded: 16.
+
+These tests helped verify obstacle detection and route recovery independently of the larger statistical experiments.
+
+### 7.5 Documentation and Review Preparation
+
+- Updated project documentation relating to Reactive A*.
+- Contributed experimental findings and performance comparisons.
+- Reviewed generated result charts and tables.
+- Prepared material explaining the algorithm's working, experimental findings and current limitations for the mid-term review.
+
+### 7.6 Current Challenges and Improvement Areas
+
+- Reactive A* performs a fresh A* search after discovering an obstacle, which can increase the number of nodes expanded.
+- Its search efficiency needs improvement for larger mazes.
+- Further testing is required with more challenging obstacle configurations.
+- The current implementation is evaluated in a simulated grid environment and has not yet been tested on a physical robot.
+
+**Overall Contribution:** Developed and evaluated the Reactive A* partial-observation navigation approach, investigated obstacle discovery and replanning, and contributed to the experimental comparison and documentation of navigation algorithms.
+
+## 8. Current Limitations and Areas for Improvement
 
 The project is currently working in a simulated maze environment. However, some limitations remain.
 
-### 7.1 Current Limitations
+### 8.1 Current Limitations
 
 1. **Simulation Only:** The project has not yet been tested on a physical robot.
 2. **Four-Direction Movement:** The robot can move only up, down, left and right.
@@ -341,16 +425,16 @@ The project is currently working in a simulated maze environment. However, some 
 4. **Execution Time:** D* Lite uses more execution time and memory than Reactive A* in the current 150-run evaluation.
 5. **Experimental Conditions:** The obstacle-discovery sequences may differ between the partial-observation algorithms.
 
-### 7.2 Future Improvements
+### 8.2 Future Improvements
 
 - Test the algorithms in more complex maze environments.
 - Improve the efficiency of path planning and replanning.
 - Perform additional robustness tests with different obstacle configurations.
 - Investigate the possibility of testing the system with a physical robot.
 
-## 8. Mid-Term Review and Teacher Feedback
+## 9. Mid-Term Review and Teacher Feedback
 
-### 8.1 Demonstration Preparation
+### 9.1 Demonstration Preparation
 
 The following demonstration programs have been prepared:
 
@@ -359,7 +443,7 @@ The following demonstration programs have been prepared:
 
 The corresponding charts have been generated and saved in `results/charts/`.
 
-### 8.2 Teacher Feedback
+### 9.2 Teacher Feedback
 
 **Status:** Pending mid-term review.
 
@@ -371,7 +455,7 @@ Feedback received from the teacher will be recorded here after the demonstration
 | 2 | To be updated after review | To be decided | Pending |
 | 3 | To be updated after review | To be decided | Pending |
 
-## 9. Project Plan for Weeks 9–12
+## 10. Project Plan for Weeks 9–12
 
 The following plan is based on the project guidebook and will be updated according to teacher feedback.
 
@@ -423,7 +507,7 @@ The following plan is based on the project guidebook and will be updated accordi
 - Check experimental results and documentation.
 - Prepare to explain the BFS, DFS and D* Lite contributions.
 
-## 10. Week 8 Completion Status
+## 11. Week 8 Completion Status
 
 | Task | Status |
 |---|---|
@@ -436,7 +520,7 @@ The following plan is based on the project guidebook and will be updated accordi
 | Record teacher feedback | Pending |
 | Finalize Weeks 9–12 plan using feedback | Pending |
 
-## 11. Conclusion
+## 12. Conclusion
 
 During this project, different search algorithms were implemented and evaluated for maze navigation.
 
