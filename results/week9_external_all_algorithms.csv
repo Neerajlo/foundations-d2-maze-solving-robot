@@ -1,0 +1,16 @@
+scenario,observation_model,algorithm,reference_length,success,path_length,nodes_expanded,runtime_seconds,peak_memory_kb,replan_count,obstacles_discovered,matches_reference
+12113,Full observation,BFS,4847.0,True,4847,113659,0.307826,16551.3,0,0,True
+12113,Full observation,DFS,4847.0,True,4847,66030,0.385904,14110.59,0,0,True
+12113,Full observation,A*,4847.0,True,4847,90379,0.588698,23903.02,0,0,True
+12113,Full observation,D* Lite,4847.0,True,4847,128291,2.933823,66024.41,0,0,True
+12119,Full observation,BFS,4847.0,True,4847,127384,0.322426,18132.55,0,0,True
+12119,Full observation,DFS,4847.0,True,4847,26044,0.137345,5865.8,0,0,True
+12119,Full observation,A*,4847.0,True,4847,123226,0.718889,26579.81,0,0,True
+12119,Full observation,D* Lite,4847.0,True,4847,114191,2.563501,63857.4,0,0,True
+12112,Full observation,BFS,4846.0,True,4846,125261,0.339855,17863.55,0,0,True
+12112,Full observation,DFS,4846.0,True,4846,24123,0.126539,5917.98,0,0,True
+12112,Full observation,A*,4846.0,True,4846,119410,0.699588,26174.59,0,0,True
+12112,Full observation,D* Lite,4846.0,True,4846,118087,2.686831,64470.36,0,0,True
+100,Partial observation,Reactive A*,43.0,True,757,136640,0.815091,2392.38,371,371,Not directly comparable
+101,Partial observation,Reactive A*,41.0,True,449,45595,0.197222,2347.35,183,183,Not directly comparable
+102,Partial observation,Reactive A*,43.0,True,47,647,0.010869,2114.32,27,27,Not directly comparable
