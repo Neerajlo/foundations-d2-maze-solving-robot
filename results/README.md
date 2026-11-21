@@ -289,3 +289,94 @@ These visualizations help compare computational effort and variation across maze
 
 The charts are generated using `create_result_charts.py` from `experiment_summary.csv`.
 
+
+---
+
+## Week 10: Reactive A* with Visit Penalty Experiment
+
+### Objective
+
+The objective of this experiment is to evaluate an enhanced version of Reactive A* that considers previously visited cells during path planning.
+
+An additional visit penalty is applied when the algorithm plans to move through a previously visited cell. This encourages the robot to explore alternative routes and reduce unnecessary revisits.
+
+### Experimental Configuration
+
+- Algorithm: Enhanced Reactive A*
+- Dataset: Moving AI maze dataset
+- Map file: `datasets/maze512-1-0.map`
+- Scenario file: `datasets/maze512-1-0.map.scen`
+- Scenario indices: 100, 101, 102, 103, 104, 105, 106, 107
+- Total scenarios: 8
+- Visit penalty values: 0, 0.1, 0.25, 0.5
+- Total experiment runs: 32
+
+### Evaluation Metrics
+
+The following metrics are recorded:
+
+- Success: Whether the robot successfully reaches the goal.
+- Distance: Actual number of movements made by the robot.
+- Nodes expanded: Total nodes explored during path planning.
+- Runtime: Execution time measured in seconds.
+- Memory: Peak traced Python memory measured in KB using `tracemalloc`.
+- Replans: Number of times the robot replans after discovering an obstacle.
+- Revisited moves: Number of movements into previously visited cells.
+
+### Results Summary
+
+All 32 experiment runs successfully reached their respective goals.
+
+Visit Penalty	Success	Average Distance	Average Nodes Expanded	Average Runtime (seconds)	Average Replans
+0	8/8	363.12	75593.50	0.309176	166.25
+0.1	8/8	449.88	117473.88	0.984204	221.38
+0.25	8/8	434.88	120594.50	0.918812	221.00
+0.5	8/8	315.62	95659.62	0.689714	161.12
+
+### Observations
+
+- All tested penalty values achieved an 8/8 success rate.
+- A penalty of 0.5 achieved the lowest average travel distance among the tested values.
+- A penalty of 0 achieved the lowest average number of expanded nodes.
+- Penalty values of 0.1 and 0.25 produced higher average travel distances than the baseline.
+- The effect of the visit penalty varied across scenarios. It did not improve every individual maze.
+
+### Output File
+
+The experiment generates:
+
+`results/reactive_astar_visit_penalty_results.csv`
+
+The CSV contains 32 experiment records with the following columns:
+
+| Column | Description | Unit |
+|---|---|---|
+| scenario | Scenario index | Number |
+| penalty | Visit penalty value | Cost value |
+| success | Whether the goal was reached | Boolean |
+| distance | Actual movements | Moves |
+| nodes | Nodes expanded | Count |
+| runtime | Execution time | Seconds |
+| memory | Peak traced Python memory | KB |
+| replans | Replanning count | Count |
+| revisited | Revisited movements | Count |
+
+### Reproduction Instructions
+
+Run the following command from the project root directory:
+
+`python -m src.reactive_astar_experiment`
+
+The program runs all eight scenarios with four penalty values and automatically generates the CSV output file.
+
+Running the program again overwrites the previous Week 10 CSV results.
+
+### Assumptions and Limitations
+
+- The experiment uses eight selected scenarios from the Moving AI dataset.
+- Results represent the current implementation and tested penalty values.
+- Runtime may vary depending on computer load and execution conditions.
+- Memory measurements represent traced Python allocations, not total process memory or system RAM.
+- The reference optimal length is taken from the scenario dataset.
+- A higher visit penalty does not guarantee a shorter path in every scenario.
+- These results should not be treated as universal performance guarantees.
