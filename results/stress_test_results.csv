@@ -1,0 +1,12 @@
+test_name,maze_size,penalty,success,distance_moves,nodes_expanded,replans,obstacles_discovered,runtime_seconds,peak_traced_memory_kb,observation
+Simple baseline,3x3,0,True,4,9,0,,,,Reached the goal
+Obstacle discovery,3x3,0,True,4,8,1,1,,,Discovered obstacle and replanned
+Unreachable goal,3x3,0,False,6,26,3,,,,Goal unreachable; algorithm stopped
+Negative penalty,3x3,-1,True,4,9,0,,,,Negative penalty accepted without validation
+Empty maze input,Empty,,,,,,,,,Raised IndexError because first row was missing
+Irregular maze input,3x3,,,,,,,,,Accepted rows with unequal lengths without validation
+Obstacle-heavy maze,5x5,0,True,8,62,2,2,,,Reached goal after discovering two obstacles
+Penalty comparison,5x5,0.5,True,8,62,2,,,,Same results as penalty 0 and penalty 1
+Runtime and memory,5x5,0,True,8,62,2,,0.001092,5.43,Measured using time and tracemalloc
+Large open maze,50x50,0,True,98,2500,0,,0.012251,327.55,All cells were open
+Larger open maze,100x100,0,True,198,10000,0,,0.106559,1300.55,All cells were open

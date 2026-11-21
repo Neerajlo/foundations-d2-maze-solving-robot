@@ -380,3 +380,69 @@ Running the program again overwrites the previous Week 10 CSV results.
 - The reference optimal length is taken from the scenario dataset.
 - A higher visit penalty does not guarantee a shorter path in every scenario.
 - These results should not be treated as universal performance guarantees.
+
+---
+
+## Week 11 � Reactive A* Stress Testing
+
+### Objective
+
+Evaluate the limitations of Reactive A* with visit penalties under different maze conditions, invalid inputs, unreachable goals, and increasing maze sizes.
+
+### Tests Performed
+
+- Normal navigation in a small maze.
+- Obstacle discovery and replanning.
+- Unreachable goal handling.
+- Negative visit-penalty input.
+- Empty and irregular maze inputs.
+- Obstacle-heavy maze navigation.
+- Comparison of visit penalties 0, 0.5, and 1.
+- Runtime and peak memory measurement.
+- Performance testing on 5x5, 50x50, and 100x100 mazes.
+
+### Results Summary
+
+| Maze / Test | Success | Distance (moves) | Nodes Expanded | Replans | Runtime (seconds) | Peak Memory (KB) |
+|---|---|---:|---:|---:|---:|---:|
+| Simple 3x3 | Yes | 4 | 9 | 0 | - | - |
+| Obstacle discovery 3x3 | Yes | 4 | 8 | 1 | - | - |
+| Unreachable goal 3x3 | No | 6 | 26 | 3 | - | - |
+| Obstacle-heavy 5x5 | Yes | 8 | 62 | 2 | - | - |
+| Open 50x50 | Yes | 98 | 2500 | 0 | 0.012251 | 327.55 |
+| Open 100x100 | Yes | 198 | 10000 | 0 | 0.106559 | 1300.55 |
+
+The separate 5x5 runtime and memory measurement was 0.001092 seconds and 5.43 KB.
+
+### Key Observations
+
+- Reactive A* successfully navigated the tested obstacle-heavy maze.
+- The algorithm correctly reported failure when the goal was unreachable.
+- Negative visit penalties were accepted without input validation.
+- Empty maze input caused an IndexError.
+- Irregular maze dimensions were accepted without validation.
+- Penalties of 0, 0.5, and 1 produced identical results in the tested obstacle-heavy maze.
+- Larger open mazes required more nodes, runtime, and memory.
+
+### Output File
+
+`results/stress_test_results.csv`
+
+The CSV records test names, maze sizes, penalty values, success, distance, expanded nodes, replans, discovered obstacles, runtime, peak traced memory, and observations.
+
+### Reproduction
+
+The Week 10 experiment can be reproduced using:
+
+`python -m src.reactive_astar_experiment`
+
+Week 11 stress tests were executed using individual Python commands from the project root.
+
+### Assumptions and Limitations
+
+- Reactive A* does not use a training dataset; manually constructed evaluation mazes were used.
+- Runtime and memory measurements depend on the computer and execution conditions.
+- Memory values represent traced Python allocations, not total process memory.
+- The larger-maze performance tests used open mazes.
+- These experiments do not establish universal performance guarantees.
+- Further testing with randomized obstacle layouts and more complex environments is required.
