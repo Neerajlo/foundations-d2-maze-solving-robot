@@ -214,10 +214,72 @@ IMPORTANT: This command overwrites the existing raw results, summary and failure
 | Summary verification performed | Completed |
 | Dependencies documented | Completed |
 | Reproduction instructions documented | Completed |
-| Fresh external clone tested | Pending |
+| Fresh clone and independent environment tested | Completed |
 | Final Git working tree verified clean | Pending |
 
-## 11. Final Freeze Statement
+## 11. Fresh-Clone Reproduction Validation
+
+An independent fresh clone was created from the GitHub repository in a separate temporary directory.
+
+The reproduction test was performed using a newly created Python virtual environment.
+
+### Environment validation
+
+| Check | Result |
+|---|---|
+| Fresh GitHub clone | Successful |
+| Tested commit | `11bebfc` |
+| Python version | 3.14.7 |
+| Virtual environment | Created successfully |
+| Dependency installation | Successful |
+| pip dependency check | No broken requirements |
+
+### Automated testing
+
+The complete automated test suite was executed in the fresh clone.
+
+| Test result | Count |
+|---|---:|
+| Tests collected | 14 |
+| Tests passed | 14 |
+| Tests failed | 0 |
+| Execution time | 0.65 seconds |
+
+### Full experimental reproduction
+
+The complete experiment runner was executed from the fresh clone.
+
+| Parameter | Result |
+|---|---:|
+| Total experiments | 150 |
+| Successful experiments | 150 |
+| Unsuccessful experiments | 0 |
+| Success rate | 100% |
+| Random seeds | 42–51 |
+| Maze sizes | Small, Medium and Large |
+
+All 150 experiments completed successfully.
+
+### Post-reproduction verification
+
+The summary verification script was executed again after the experiments finished.
+
+| Verification | Result |
+|---|---:|
+| Summary rows checked | 60 |
+| Matching rows | 60 |
+| Mismatches | 0 |
+| Verification status | SUCCESS |
+
+### Final reproduction outcome
+
+The fresh clone successfully installed its dependencies, passed all automated tests, reproduced all 150 experiments and passed the summary verification.
+
+This demonstrates successful reproduction in a separate fresh clone and Python environment.
+
+**Limitation:** The test was performed by a project team member. Independent verification by someone outside the team remains pending.
+
+## 12. Final Freeze Statement
 
 The project has completed its main experimental evaluation and generated the associated summary tables and figures.
 
@@ -225,6 +287,6 @@ The experimental baseline is identified by commit:
 
 `84575433d90b8d357c2634e04fb0c3964f7eb4bd`
 
-The final reproducibility stage requires an independent fresh clone, environment setup, experiment execution and verification.
+The project has successfully reproduced all 150 experiments in a fresh GitHub clone and separate Python environment.
 
-The project should be considered fully reproducible only after that independent test succeeds.
+Independent verification by an individual outside the project team remains pending.
