@@ -1,0 +1,5 @@
+"maze_id","rows","columns","total_cells","obstacles","free_cells","obstacle_density_percent","difficulty"
+"large_42","30","30","900","201","699","22.33","Medium"
+"large_43","30","30","900","205","695","22.78","Medium"
+"medium_42","20","20","400","91","309","22.75","Medium"
+"small_42","10","10","100","22","78","22.0","Medium"
