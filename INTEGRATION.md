@@ -114,7 +114,7 @@ The process is:
 
 Main experiment runner: `run_experiments.py`
 
-The main experiment pipeline compares five algorithms under two observation conditions.
+The main experiment pipeline evaluates five pathfinding algorithms under two observation conditions using two independent experimental datasets.
 
 ### Fully Observable Scenario
 
@@ -124,7 +124,7 @@ Algorithms:
 - DFS
 - A*
 
-The complete maze layout is available to the search algorithms.
+The complete maze layout is available to the search algorithms before navigation begins.
 
 ### Partially Observable Scenario
 
@@ -133,21 +133,37 @@ Algorithms:
 - Reactive A*
 - D* Lite
 
-The algorithms initially operate with incomplete obstacle information and discover obstacles during navigation.
+The algorithms initially operate with incomplete obstacle information and discover previously unknown obstacles during navigation.
 
-### Experiment Configuration
+### Experimental Configuration
 
-- Random seeds: 42 to 51
-- Small maze: 10 x 10
-- Medium maze: 20 x 20
-- Large maze: 30 x 30
-- Five algorithms per maze configuration
+Both datasets use the same experimental configuration:
 
-The experiment configuration produces 150 runs:
+- Small maze: 10 × 10
+- Medium maze: 20 × 20
+- Large maze: 30 × 30
+- Five algorithms
+- Ten random seeds per dataset
 
-10 seeds x 3 maze sizes x 5 algorithms.
+**Dataset A — Primary Evaluation**
 
-A separate maze object is created for each algorithm to maintain experimental independence.
+- Random seeds: 42–51
+- Maze sizes: Small, medium, and large
+- Total runs: 150
+
+**Dataset B — Additional Statistical Evaluation**
+
+- Random seeds: 100–109
+- Maze sizes: Small, medium, and large
+- Total runs: 150
+
+**Overall Experimental Evaluation**
+
+The two independent datasets contain 300 experimental runs in total.
+
+Each dataset is analysed separately. Their statistical summaries are not combined, preserving the independence of the two evaluations.
+
+A separate maze instance is created for each algorithm to maintain experimental independence.
 
 ## 4. Performance Measurement
 
@@ -169,32 +185,61 @@ Peak memory is measured using Python's tracemalloc module.
 
 ## 5. Result Storage
 
-The primary experiment results are stored in the `results` directory.
+The experimental results are stored in the `results` directory. The primary evaluation and additional statistical evaluation are maintained separately.
 
-Important files include:
+### Dataset A — Primary Evaluation
+
+Location: `results/`
+
+Important files:
 
 - `experiment_results.csv`: Individual experimental records.
 - `experiment_summary.csv`: Aggregated statistical results.
 - `experiment_failures.csv`: Records of unsuccessful runs.
-- `dstar_lite_navigation_results.csv`: Partial-observation navigation results.
 
-The repository also contains supplementary experiment outputs and external-dataset results. These are maintained separately from the primary experiment records.
+### Dataset B — Additional Statistical Evaluation
+
+Location: `results/experiment_runs/`
+
+Important files:
+
+- `experiment_results.csv`: Individual experimental records.
+- `experiment_summary.csv`: Aggregated statistical results.
+- `experiment_failures.csv`: Records of unsuccessful runs.
+
+### Additional Experiment Results
+
+The repository also contains supplementary experiment outputs, including D* Lite navigation results, external dataset comparisons, stress tests, and individual team-member experiment records.
+
+These supplementary results are maintained separately from the two primary experimental datasets.
 
 ## 6. Result Visualisation
 
-The project contains graphs for the following performance metrics:
+The project includes graphical visualisations to support the comparison of the five pathfinding algorithms.
 
-- Path length.
-- Nodes expanded.
-- Runtime.
-- Peak memory usage.
+The final research-paper figures are stored in:
 
-Existing figures are stored in:
+`results/paper_figures/`
 
-- `results/experiment_graphs/`
-- `results/week12_graphs/`
+Eight figures are included:
 
-These figures support the comparison and interpretation of algorithm performance.
+### Dataset A
+
+1. `dataset_A_nodes_expanded.png` — Mean nodes expanded.
+2. `dataset_A_path_length.png` — Mean path length.
+3. `dataset_A_runtime_seconds.png` — Mean execution time.
+4. `dataset_A_peak_memory_kb.png` — Mean peak memory usage.
+
+### Dataset B
+
+5. `dataset_B_nodes_expanded.png` — Mean nodes expanded.
+6. `dataset_B_path_length.png` — Mean path length.
+7. `dataset_B_runtime_seconds.png` — Mean execution time.
+8. `dataset_B_peak_memory_kb.png` — Mean peak memory usage.
+
+The figures display the mean values with standard-deviation error bars. Dataset A and Dataset B are visualised separately to preserve the independence of their experimental results.
+
+The Python script `generate_paper_figures.py` is included in the repository to support figure generation.
 
 ## 7. Earlier Experiment Runner
 
@@ -222,21 +267,49 @@ These experiments provide additional analysis and should not be merged into the 
 
 ## 9. Team Integration
 
-The project was developed collaboratively by three team members, with each member contributing to a specific area of the system.
+The project was developed collaboratively by three team members. Each member contributed to a specific part of the maze-solving system, and their individual work was integrated into a common codebase to develop a complete navigation and experimental evaluation framework.
 
-### Member 1 – Riya (Team Lead)
+### Member 1 – Riya (Team Lead and Search Algorithm Developer)
 
-Responsible for the implementation and development of classical search algorithms, including Breadth-First Search (BFS) and Depth-First Search (DFS), along with the core D* Lite algorithm. Also contributed to research coordination and algorithm evaluation.
+Riya was responsible for the development of the core search algorithms and research coordination.
 
-### Member 2 – Jasmeet (Autonomous Navigation and Replanning)
+Key contributions:
 
-Responsible for autonomous robot navigation, partial-observation handling, obstacle discovery, and replanning when the robot encounters previously unknown obstacles.
+- Implemented Breadth-First Search (BFS) for systematic maze exploration and shortest-path search.
+- Implemented Depth-First Search (DFS) for depth-oriented maze exploration.
+- Developed the core D* Lite algorithm for incremental path planning.
+- Contributed to algorithm evaluation and research coordination.
+- Supported the integration of search algorithms into the overall maze-solving framework.
+
+### Member 2 – Jasmeet (Autonomous Navigation and Replanning Developer)
+
+Jasmeet was responsible for the robot navigation system and its operation in partially observable environments.
+
+Key contributions:
+
+- Developed autonomous navigation functionality for the simulated robot.
+- Worked on partial-observation handling and the robot's knowledge of the environment.
+- Implemented obstacle discovery during navigation.
+- Developed navigation and replanning workflows when previously unknown obstacles were encountered.
+- Integrated navigation functionality with the path-planning components.
 
 ### Member 3 – Neeraj (AI/ML and Algorithm Development)
 
-Responsible for AI/ML-related algorithm development and supporting the implementation, experimentation, and evaluation of the maze-solving system.
+Neeraj was responsible for AI/ML-related algorithm development and supporting the experimental evaluation of the project.
 
-The individual contributions are integrated into a common repository to provide a unified maze-navigation and experimental evaluation framework.
+Key contributions:
+
+- Contributed to AI/ML-related algorithm development within the project.
+- Supported the implementation and integration of algorithm components.
+- Contributed to experimental execution and performance evaluation.
+- Supported the analysis and comparison of algorithm results.
+- Contributed to the overall development of the maze-solving framework.
+
+### Overall Team Integration
+
+The three members' contributions were combined to create a unified maze-solving system. Search algorithms provide pathfinding capabilities, autonomous navigation handles robot movement and obstacle discovery, and algorithm development and experimentation support the evaluation of system performance.
+
+The integrated project supports five principal algorithms: BFS, DFS, A*, Reactive A*, and D* Lite. Their performance is evaluated across fully observable and partially observable scenarios using two independent experimental datasets.
 
 ## 10. Limitations
 
