@@ -1,9 +1,9 @@
-# Foundations D2 — Maze Solving Robot
+﻿# Foundations D2 â€” Maze Solving Robot
 
 ## Project Overview
 
-Track: Foundations D — Robotics and Algorithmic Problem Solving  
-Module: D2 — Maze Solving Robot  
+Track: Foundations D â€” Robotics and Algorithmic Problem Solving  
+Module: D2 â€” Maze Solving Robot  
 Type: Path Finding / Robot Simulation  
 Difficulty: Foundation
 
@@ -45,18 +45,18 @@ The main objectives of this project are:
 
 ## Team
 
-This project is developed collaboratively by a four-member project team.
+This project is developed collaboratively by a three-member project team.
 
 | Member | Role |
 |---|---|
-| Member 1 (Neeraj) | Maze / Data Preparation |
-| Member 2 (Jasmeet) | Algorithm Development |
-| Member 3 (Riya) | Testing / Evaluation |
-| Member 4 (Pranav) | Documentation / Research |
+| Riya (Member 1 - Team Lead) | BFS, DFS, D* Lite Core Development and Research Coordination |
+| Jasmeet (Member 2) | Autonomous Navigation, Obstacle Discovery and Replanning |
+| Neeraj (Member 3) | AI/ML Engineering and Algorithm Development |
 
-All team members are expected to contribute to the repository and understand the complete project pipeline.
 
----
+All team members contribute to the implementation, testing, evaluation, and integration of the maze-solving system. The team works collaboratively to develop and evaluate the complete project pipeline.
+
+(As we removed fourth member from our team because of different section, he is from section A)
 
 ## Problem Definition
 
@@ -75,14 +75,14 @@ A typical movement may include:
 
 ```text
         UP
-         ↑
+         â†‘
          |
-LEFT ← ROBOT → RIGHT
+LEFT â† ROBOT â†’ RIGHT
          |
-         ↓
+         â†“
        DOWN
 
-## Week 2 – Initial Findings
+## Week 2 â€“ Initial Findings
 
 1. The dataset contains 27 experiment records covering 9 mazes and 3 algorithms.
 
@@ -134,7 +134,7 @@ The current test suite contains 9 tests covering maze generation, maze validatio
 
 Hart, P. E., Nilsson, N. J., & Raphael, B. (1968).
 A Formal Basis for the Heuristic Determination of Minimum Cost Paths.
-IEEE Transactions on Systems Science and Cybernetics, 4(2), 100–107.
+IEEE Transactions on Systems Science and Cybernetics, 4(2), 100â€“107.
 https://doi.org/10.1109/TSSC.1968.300136
 
 **Objective:** Validate the shortest-path property of A* on our
@@ -167,7 +167,7 @@ Its performance was compared with BFS across 9 generated mazes (small, medium, a
 
 ---
 
-## Week 6 – D* Lite Implementation and Experimental Evaluation
+## Week 6 â€“ D* Lite Implementation and Experimental Evaluation
 
 ### 1. Objective
 
@@ -201,7 +201,7 @@ Relevant files:
 
 D* Lite was compared with Breadth-First Search (BFS).
 
-A challenging experiment was conducted using the 30 × 30 maze `large_42`.
+A challenging experiment was conducted using the 30 Ã— 30 maze `large_42`.
 
 Twenty-four additional obstacle cells were introduced sequentially. D* Lite updated its existing search information after each obstacle discovery, while BFS performed a fresh search on the final updated maze.
 
@@ -209,10 +209,10 @@ Twenty-four additional obstacle cells were introduced sequentially. D* Lite upda
 
 | Measurement | D* Lite | BFS |
 |---|---:|---:|
-| Initial path length | 58 | — |
+| Initial path length | 58 | â€” |
 | Final path length | 60 | 60 |
 | Total nodes expanded | 737 | 669 |
-| Replanning expansions | 348 | — |
+| Replanning expansions | 348 | â€” |
 | Navigation successful | Yes | Yes |
 
 Both algorithms found a valid shortest path of 60 steps after the obstacles were introduced.
@@ -293,7 +293,7 @@ The comparison with BFS confirmed that both algorithms found equally short paths
 The results are preliminary and do not establish that D* Lite always performs better than BFS in terms of execution time or total node expansions.
 ---
 
-## Week 6 – Reactive A* and D* Lite Comparative Evaluation
+## Week 6 â€“ Reactive A* and D* Lite Comparative Evaluation
 
 ### 9. Objective
 
@@ -332,9 +332,9 @@ Both algorithms were evaluated using the same nine generated mazes:
 
 | Maze Category | Dimensions | Number of Mazes |
 |---|---|---:|
-| Small | 10 × 10 | 3 |
-| Medium | 20 × 20 | 3 |
-| Large | 30 × 30 | 3 |
+| Small | 10 Ã— 10 | 3 |
+| Medium | 20 Ã— 20 | 3 |
+| Large | 30 Ã— 30 | 3 |
 | **Total** | | **9** |
 
 The following performance parameters were recorded:
@@ -385,9 +385,9 @@ Both algorithms successfully reached the goal in all nine test mazes, achieving 
 
 The experimental results are stored in:
 
-- `results/maze_results.csv` – BFS, DFS, A*, and Reactive A* results.
-- `results/dstar_lite_navigation_results.csv` – D* Lite partial-observation results.
-- `results/algorithm_comparison.csv` – Comparative average performance of all five algorithms.
+- `results/maze_results.csv` â€“ BFS, DFS, A*, and Reactive A* results.
+- `results/dstar_lite_navigation_results.csv` â€“ D* Lite partial-observation results.
+- `results/algorithm_comparison.csv` â€“ Comparative average performance of all five algorithms.
 
 ### 9.7 Conclusion
 
@@ -400,7 +400,7 @@ However, Reactive A* recorded lower execution time and memory consumption in the
 The results demonstrate different performance trade-offs between the two navigation approaches. Neither algorithm is universally superior across all performance measurements.
 
 The experiments were conducted on nine generated mazes, and the results should be interpreted within the limits of the tested configurations.
-## 10. Week 7 – Statistical Evaluation
+## 10. Week 7 â€“ Statistical Evaluation
 
 ### 10.1 Objectives
 
@@ -416,13 +416,13 @@ The evaluation measured:
 
 ### 10.2 Experimental Setup
 
-A separate dataset was generated using seeds 100–109.
+A separate dataset was generated using seeds 100â€“109.
 
 | Maze Size | Dimensions | Test Mazes |
 |---|---|---:|
-| Small | 10 × 10 | 10 |
-| Medium | 20 × 20 | 10 |
-| Large | 30 × 30 | 10 |
+| Small | 10 Ã— 10 | 10 |
+| Medium | 20 Ã— 20 | 10 |
+| Large | 30 Ã— 30 | 10 |
 | Total | | 30 |
 
 Five algorithms were tested: BFS, DFS, A*, Reactive A*, and D* Lite.
@@ -431,31 +431,31 @@ This produced 150 experiments. BFS, DFS and A* used full maze visibility, while 
 
 ### 10.3 Statistical Results
 
-Values represent mean ± standard deviation across 10 runs.
+Values represent mean Â± standard deviation across 10 runs.
 
 #### Nodes Expanded
 
 | Maze Size | Reactive A* | D* Lite |
 |---|---:|---:|
-| Small | 256.2 ± 59.73 | 112.2 ± 13.95 |
-| Medium | 1,986.4 ± 763.22 | 456.9 ± 33.91 |
-| Large | 5,484.1 ± 1,781.49 | 979.4 ± 61.51 |
+| Small | 256.2 Â± 59.73 | 112.2 Â± 13.95 |
+| Medium | 1,986.4 Â± 763.22 | 456.9 Â± 33.91 |
+| Large | 5,484.1 Â± 1,781.49 | 979.4 Â± 61.51 |
 
 #### Peak Memory Usage (KB)
 
 | Maze Size | Reactive A* | D* Lite |
 |---|---:|---:|
-| Small | 13.64 ± 0.54 | 21.38 ± 3.06 |
-| Medium | 50.71 ± 1.97 | 75.18 ± 9.30 |
-| Large | 99.32 ± 0.92 | 147.61 ± 10.59 |
+| Small | 13.64 Â± 0.54 | 21.38 Â± 3.06 |
+| Medium | 50.71 Â± 1.97 | 75.18 Â± 9.30 |
+| Large | 99.32 Â± 0.92 | 147.61 Â± 10.59 |
 
-#### Solution Quality – Path Length
+#### Solution Quality â€“ Path Length
 
 | Maze Size | Reactive A* | D* Lite |
 |---|---:|---:|
-| Small | 22.2 ± 5.20 | 22.2 ± 5.20 |
-| Medium | 57.0 ± 12.01 | 57.0 ± 12.01 |
-| Large | 82.6 ± 18.60 | 82.8 ± 19.14 |
+| Small | 22.2 Â± 5.20 | 22.2 Â± 5.20 |
+| Medium | 57.0 Â± 12.01 | 57.0 Â± 12.01 |
+| Large | 82.6 Â± 18.60 | 82.8 Â± 19.14 |
 
 ### 10.4 Success Rate
 
@@ -487,10 +487,10 @@ Node-expansion counts are implementation-specific and should not be interpreted 
 
 All Week 7 outputs are stored separately in `results/week7/`.
 
-- `experiment_results.csv` – Raw results from 150 experiments.
-- `experiment_summary.csv` – Statistical summaries.
-- `experiment_failures.csv` – Failed experiment records.
-- `charts/` – Generated comparison charts.
+- `experiment_results.csv` â€“ Raw results from 150 experiments.
+- `experiment_summary.csv` â€“ Statistical summaries.
+- `experiment_failures.csv` â€“ Failed experiment records.
+- `charts/` â€“ Generated comparison charts.
 
 The experiment scripts are:
 
